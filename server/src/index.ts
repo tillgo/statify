@@ -5,6 +5,7 @@ import mongoose from 'mongoose'
 import cookieParser from 'cookie-parser'
 import cors from 'cors'
 import path from 'path'
+import { router as authRouter } from './routes/auth'
 
 // load env variables (prod: env vars, dev: .env file)
 if (process.env.NODE_ENV !== 'production') {
@@ -22,6 +23,8 @@ app.use(express.static(path.join(__dirname, 'public')))
 app.use(express.json())
 app.use(cookieParser())
 app.use(cors({ origin: process.env.NODE_ENV !== 'production' ? '*' : undefined }))
+
+app.use('/api/auth', authRouter)
 
 // serve index.html for all other routes
 // @ts-ignore
