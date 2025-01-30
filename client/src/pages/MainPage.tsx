@@ -9,8 +9,6 @@ export const MainPage = () => {
         queryFn: ({ signal }) => AxiosClient.get('/auth/spotify/me', { signal, withCredentials: true }).then((res) => res.data),
     })
 
-    console.log(data)
-
     if (!data) return (<div className={'flex flex-col gap-3 p-4'} >
         Bitte melde dich mit deinem Spotify account an.
         <Button
@@ -24,6 +22,6 @@ export const MainPage = () => {
     </div>)
 
     return (<div>
-        Hi {data.display_name},
+        Hi {data.display_name}, danke fürs beta testen :D
     </div>)
 }
