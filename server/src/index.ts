@@ -1,12 +1,14 @@
 import 'express-async-errors' // This line is required to handle async errors in Express
-import express from "express";
-import dotenv from "dotenv";
+import express from 'express'
+import dotenv from 'dotenv'
 import mongoose from 'mongoose'
 import cookieParser from 'cookie-parser'
 import cors from 'cors'
 import path from 'path'
 import { router as authRouter } from './routes/auth'
 import { getEnv, parseEnv } from './utils/env'
+import { dbLoop } from './services/syncLoop/looper'
+import { logger } from './utils/logger'
 
 // load env variables (prod: env vars, dev: .env file)
 if (process.env.NODE_ENV !== 'production') {
@@ -14,9 +16,11 @@ if (process.env.NODE_ENV !== 'production') {
 }
 parseEnv()
 
-const app = express();
+const app = express()
 mongoose.connect(getEnv('MONGO_URI')).then(() => {
-    console.log('[server]: Connected to MongoDB')
+    logger.info('[server]: Connected to MongoDB')
+
+    dbLoop().catch(logger.error)
 })
 
 // serve static frontend and assets
@@ -37,7 +41,7 @@ app.use((req, res) => {
     res.status(200).sendFile(path.join(__dirname, 'public', 'index.html'))
 })
 
-const port = getEnv("PORT", 8080);
+const port = getEnv('PORT', 8080)
 app.listen(port, () => {
-    console.log(`[server]: Server is running at port ${port}`);
-});
+    logger.info(`[server]: Server is running at port ${port}`)
+})

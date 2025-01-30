@@ -1,18 +1,17 @@
-import { z } from "zod";
-import { Types } from "mongoose";
+import { z } from 'zod'
+import { Types } from 'mongoose'
 import { User } from '../shared/types'
-import { Request } from "express";
+import { Request } from 'express'
+import { SpotifyAPI } from './apis/spotifyApi'
 
 export type ObjIdOrString = Types.ObjectId | string
 
-export type TypedPayload<
-    T extends z.AnyZodObject | z.ZodDiscriminatedUnion<any, any>,
-> = z.infer<T>;
+export type TypedPayload<T extends z.AnyZodObject | z.ZodDiscriminatedUnion<any, any>> = z.infer<T>
 
 export interface LoggedRequest extends Request {
-    user: User;
+    user: User
 }
 
 export interface SpotifyRequest extends Request {
-    client: SpotifyAPI;
+    client: SpotifyAPI
 }
