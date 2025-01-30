@@ -4,10 +4,12 @@ import { Button } from '@/components/ui/button.tsx'
 
 export const MainPage = () => {
 
-    const { data } = useQuery({
+    const { data, isLoading } = useQuery({
         queryKey: ['me'],
         queryFn: ({ signal }) => AxiosClient.get('/auth/spotify/me', { signal, withCredentials: true }).then((res) => res.data),
     })
+
+    if (isLoading) return <div className={'p-4'}>Loading ...</div>
 
     if (!data) return (<div className={'flex flex-col gap-3 p-4'} >
         Bitte melde dich mit deinem Spotify account an.
