@@ -22,6 +22,6 @@ export const MainPage = () => {
     </div>)
 
     return (<div>
-        Hi {data.display_name}, danke fürs beta testen :D
+        Hi {data.display_name}, danke fürs beta testen :D Ich meld mich wenn actually was zu sehen ist hier xD
     </div>)
 }
