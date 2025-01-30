@@ -6,14 +6,16 @@ import cookieParser from 'cookie-parser'
 import cors from 'cors'
 import path from 'path'
 import { router as authRouter } from './routes/auth'
+import { getEnv, parseEnv } from './utils/env'
 
 // load env variables (prod: env vars, dev: .env file)
 if (process.env.NODE_ENV !== 'production') {
     dotenv.config()
 }
+parseEnv()
 
 const app = express();
-mongoose.connect(process.env.MONGO_URL!).then(() => {
+mongoose.connect(getEnv('MONGO_URI')).then(() => {
     console.log('[server]: Connected to MongoDB')
 })
 
@@ -35,7 +37,7 @@ app.use((req, res) => {
     res.status(200).sendFile(path.join(__dirname, 'public', 'index.html'))
 })
 
-const port = process.env.PORT || 8080;
+const port = getEnv("PORT", 8080);
 app.listen(port, () => {
     console.log(`[server]: Server is running at port ${port}`);
 });

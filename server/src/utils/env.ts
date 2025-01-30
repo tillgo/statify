@@ -4,7 +4,7 @@ import { toNumber } from './zod'
 const validators = {
     CLIENT_ENDPOINT: z.string(),
     API_ENDPOINT: z.string(),
-    MONGO_URL: z.string(),
+    MONGO_URI: z.string(),
     SPOTIFY_PUBLIC: z.string(),
     SPOTIFY_SECRET: z.string(),
     JWT_SECRET: z.string(),
@@ -27,16 +27,19 @@ export function getEnv<E extends EnvVariable>(
     return validatedEnv[variable] ?? defaultValue;
 }
 
-Object.entries(validators).forEach(([key, value]) => {
-    const v = process.env[key];
-    try {
-        validatedEnv[key] = value.parse(v);
-    } catch (e) {
-        console.error(`[error] ${key} env variable is missing`);
-        if (e instanceof z.ZodError) {
-            e.issues.forEach(issue => {
-                console.error(`[error] -> ${issue.message}`);
-            });
+export const parseEnv = () => {
+    Object.entries(validators).forEach(([key, value]) => {
+        const v = process.env[key];
+        try {
+            validatedEnv[key] = value.parse(v);
+        } catch (e) {
+            console.error(`[error] ${key} env variable is missing`);
+            if (e instanceof z.ZodError) {
+                e.issues.forEach(issue => {
+                    console.error(`[error] -> ${issue.message}`);
+                });
+            }
         }
-    }
-});
+    });
+}
+

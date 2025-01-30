@@ -1,5 +1,5 @@
 import Axios from "axios";
-import { credentials } from "./credentials";
+import { getCredentials } from "./getCredentials";
 import { getRandomValues } from 'crypto'
 
 export class Provider {
@@ -16,6 +16,7 @@ export class Provider {
 
 export class Spotify extends Provider {
   static getRedirect = async () => {
+    const credentials = getCredentials();
     const { scopes } = credentials.spotify;
     const { redirectUri } = credentials.spotify;
 
@@ -42,9 +43,9 @@ export class Spotify extends Provider {
         params: {
           grant_type: "authorization_code",
           code,
-          redirect_uri: credentials.spotify.redirectUri,
-          client_id: credentials.spotify.public,
-          client_secret: credentials.spotify.secret,
+          redirect_uri: getCredentials().spotify.redirectUri,
+          client_id: getCredentials().spotify.public,
+          client_secret: getCredentials().spotify.secret,
           state,
         },
         headers: {
@@ -72,7 +73,7 @@ export class Spotify extends Provider {
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
           Authorization: `Basic ${Buffer.from(
-            `${credentials.spotify.public}:${credentials.spotify.secret}`,
+            `${getCredentials().spotify.public}:${getCredentials().spotify.secret}`,
           ).toString("base64")}`,
         },
       },

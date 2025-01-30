@@ -1,6 +1,6 @@
 import { getEnv } from '../env'
 
-export const credentials = {
+export const getCredentials = () =>  ({
   spotify: {
     public: getEnv("SPOTIFY_PUBLIC"),
     secret: getEnv("SPOTIFY_SECRET"),
@@ -14,4 +14,4 @@ export const credentials = {
     ].join(" "),
     redirectUri: `${getEnv("API_ENDPOINT")}/api/auth/spotify/callback`,
   },
-};
+})
