@@ -28,7 +28,7 @@ app.use(express.static(path.join(__dirname, 'public')))
 
 app.use(express.json())
 app.use(cookieParser())
-app.use(cors({ origin: process.env.NODE_ENV !== 'production' ? '*' : undefined }))
+app.use(cors({ origin: getEnv('NODE_ENV') !== 'production' ? '*' : undefined }))
 
 app.use('/api/auth', authRouter)
 
