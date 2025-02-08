@@ -1,4 +1,4 @@
-import { Schema } from "mongoose";
+import { Schema } from 'mongoose'
 import { User } from '../../shared/types'
 
 export const UserSchema = new Schema<User>(
@@ -12,20 +12,20 @@ export const UserSchema = new Schema<User>(
         lastTimestamp: { type: Number, default: 0 },
         tracks: {
             type: [Schema.Types.ObjectId],
-            ref: "Infos",
+            ref: 'Infos',
             select: false,
             default: [],
         },
         settings: {
             darkMode: {
                 type: String,
-                enum: ["system", "dark", "light"],
-                default: "system",
+                enum: ['system', 'dark', 'light'],
+                default: 'system',
             },
         },
         lastImport: { type: String, default: null },
         publicToken: { type: String, default: null, index: true },
         firstListenedAt: { type: Date },
     },
-    { toJSON: { virtuals: true }, toObject: { virtuals: true } },
-);
+    { toJSON: { virtuals: true }, toObject: { virtuals: true } }
+)

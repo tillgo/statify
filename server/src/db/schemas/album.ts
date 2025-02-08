@@ -21,12 +21,12 @@ export const AlbumSchema = new Schema<Album>(
         type: String,
         uri: String,
     },
-    { toJSON: { virtuals: true }, toObject: { virtuals: true } },
-);
+    { toJSON: { virtuals: true }, toObject: { virtuals: true } }
+)
 
-AlbumSchema.virtual("artist", {
-    ref: "Artist",
-    localField: "artists",
-    foreignField: "id",
+AlbumSchema.virtual('artist', {
+    ref: 'Artist',
+    localField: 'artists',
+    foreignField: 'id',
     justOne: false,
-});
+})

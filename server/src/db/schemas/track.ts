@@ -1,7 +1,6 @@
 import { Schema } from 'mongoose'
 import { Track } from '../../shared/types'
 
-
 export const TrackSchema = new Schema<Track>(
     {
         album: { type: String, index: true }, // Id of the album
@@ -22,19 +21,19 @@ export const TrackSchema = new Schema<Track>(
         type: String,
         uri: String,
     },
-    { toJSON: { virtuals: true }, toObject: { virtuals: true } },
-);
+    { toJSON: { virtuals: true }, toObject: { virtuals: true } }
+)
 
-TrackSchema.virtual("full_album", {
-    ref: "Album",
-    localField: "album",
-    foreignField: "id",
+TrackSchema.virtual('full_album', {
+    ref: 'Album',
+    localField: 'album',
+    foreignField: 'id',
     justOne: true,
-});
+})
 
-TrackSchema.virtual("full_artist", {
-    ref: "Artist",
-    localField: "artists",
-    foreignField: "id",
+TrackSchema.virtual('full_artist', {
+    ref: 'Artist',
+    localField: 'artists',
+    foreignField: 'id',
     justOne: false,
-});
+})

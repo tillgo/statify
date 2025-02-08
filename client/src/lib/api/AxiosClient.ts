@@ -5,5 +5,5 @@ export const AxiosClient = axios.create({
     headers: {
         'Cache-Control': 'no-cache, no-store, must-revalidate',
     },
-    withCredentials: true
+    withCredentials: true,
 })
