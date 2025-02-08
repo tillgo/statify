@@ -26,14 +26,21 @@ mongoose.connect(getEnv('MONGO_URI')).then(() => {
     dbLoop().catch(logger.error)
 })
 
+if (getEnv('NODE_ENV') !== 'production') {
+    app.use(
+        cors({
+            origin: getEnv('CLIENT_ENDPOINT'),
+            credentials: true,
+            methods: ['GET', 'POST', 'PUT', 'DELETE'],
+            allowedHeaders: ['Content-Type', 'Cache-Control'],
+        })
+    )
+}
+
 // serve static frontend and assets
 app.use(express.static(path.join(__dirname, 'public')))
-
 app.use(express.json())
 app.use(cookieParser())
-if (getEnv('NODE_ENV') !== 'production') {
-    app.use(cors({ origin: '*' }))
-}
 
 app.use('/api/auth', authRouter)
 app.use('/api/import', importRouter)

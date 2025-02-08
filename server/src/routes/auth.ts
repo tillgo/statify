@@ -24,19 +24,6 @@ const spotifyCallbackOAuthCookie = z.object({
 type OAuthCookie = z.infer<typeof spotifyCallbackOAuthCookie>
 
 router.get('/spotify', async (req, res) => {
-    const offlineUserId = getEnv('OFFLINE_DEV_ID')
-    if (offlineUserId) {
-        const jwtSecret = getEnv('JWT_SECRET')
-        if (!jwtSecret) {
-            throw new Error('No private data found, cannot sign JWT')
-        }
-        const token = sign({ userId: offlineUserId }, jwtSecret, {
-            expiresIn: '24h',
-        })
-        storeTokenInCookie(req, res, token)
-        res.status(204).end()
-        return
-    }
     const { url, state } = await Spotify.getRedirect()
     const oauthCookie: OAuthCookie = {
         state,
@@ -55,7 +42,6 @@ const spotifyCallback = z.object({
     code: z.string(),
     state: z.string(),
 })
-
 router.get('/spotify/callback', validating(spotifyCallback, 'query'), async (req, res) => {
     const { query } = req
     const { code, state } = query as TypedPayload<typeof spotifyCallback>

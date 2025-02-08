@@ -6,7 +6,7 @@ export const getUserFromField = async <F extends keyof User>(
     field: F,
     value: User[F],
     includeTokens: boolean,
-    crash = true
+    crash = false
 ) => {
     const user = await UserModel.findOne(
         { [field]: value },
