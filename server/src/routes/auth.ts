@@ -7,7 +7,7 @@ import { logged, validating, withHttpClient } from '../utils/middleware'
 import { SpotifyRequest, TypedPayload } from '../utils/types'
 import { createUser, getUserFromField, storeInUser } from '../services/userService'
 
-export const router = Router()
+export const authRouter = Router()
 
 function storeTokenInCookie(request: Request, response: Response, token: string) {
     response.cookie('token', token, {
@@ -23,7 +23,7 @@ const spotifyCallbackOAuthCookie = z.object({
 })
 type OAuthCookie = z.infer<typeof spotifyCallbackOAuthCookie>
 
-router.get('/spotify', async (req, res) => {
+authRouter.get('/spotify', async (req, res) => {
     const { url, state } = await Spotify.getRedirect()
     const oauthCookie: OAuthCookie = {
         state,
@@ -42,7 +42,7 @@ const spotifyCallback = z.object({
     code: z.string(),
     state: z.string(),
 })
-router.get('/spotify/callback', validating(spotifyCallback, 'query'), async (req, res) => {
+authRouter.get('/spotify/callback', validating(spotifyCallback, 'query'), async (req, res) => {
     const { query } = req
     const { code, state } = query as TypedPayload<typeof spotifyCallback>
 
@@ -78,7 +78,7 @@ router.get('/spotify/callback', validating(spotifyCallback, 'query'), async (req
     return res.redirect(getEnv('CLIENT_ENDPOINT'))
 })
 
-router.get('/spotify/me', logged, withHttpClient, async (req, res) => {
+authRouter.get('/spotify/me', logged, withHttpClient, async (req, res) => {
     const { client } = req as SpotifyRequest
 
     try {

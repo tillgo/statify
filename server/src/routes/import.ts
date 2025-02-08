@@ -7,7 +7,7 @@ import { logger } from '../utils/logger'
 import { canUserImport, cleanupImport, runImporter } from '../services/import/importService'
 import { getImportState, getUserImportState } from '../services/import/importStateService'
 
-export const router = Router()
+export const importRouter = Router()
 
 const upload = multer({
     dest: '/tmp/imports/',
@@ -17,7 +17,7 @@ const upload = multer({
     },
 })
 
-router.post(
+importRouter.post(
     '/upload',
     upload.array('imports', 50),
     logged,
@@ -60,68 +60,79 @@ const retrySchema = z.object({
     existingStateId: z.string(),
 })
 
-router.post('/retry', validating(retrySchema), logged, notAlreadyImporting, async (req, res) => {
-    const { user } = req as LoggedRequest
-    const { existingStateId } = req.body as TypedPayload<typeof retrySchema>
+importRouter.post(
+    '/retry',
+    validating(retrySchema),
+    logged,
+    notAlreadyImporting,
+    async (req, res) => {
+        const { user } = req as LoggedRequest
+        const { existingStateId } = req.body as TypedPayload<typeof retrySchema>
 
-    const importState = await getImportState(existingStateId)
-    if (!importState || importState.user.toString() !== user._id.toString()) {
-        res.status(404).end()
-        return
-    }
+        const importState = await getImportState(existingStateId)
+        if (!importState || importState.user.toString() !== user._id.toString()) {
+            res.status(404).end()
+            return
+        }
 
-    if (importState.status !== 'failure') {
-        res.status(400).end()
-        return
-    }
+        if (importState.status !== 'failure') {
+            res.status(400).end()
+            return
+        }
 
-    try {
-        runImporter(
-            importState._id.toString(),
-            user._id.toString(),
-            importState.metadata,
-            (success) => {
-                if (success) {
-                    res.status(200).send({ code: 'IMPORT_STARTED' })
+        try {
+            runImporter(
+                importState._id.toString(),
+                user._id.toString(),
+                importState.metadata,
+                (success) => {
+                    if (success) {
+                        res.status(200).send({ code: 'IMPORT_STARTED' })
+                        return
+                    }
+                    res.status(400).send({ code: 'IMPORT_INIT_FAILED' })
                     return
                 }
-                res.status(400).send({ code: 'IMPORT_INIT_FAILED' })
-                return
-            }
-        ).catch(logger.error)
-    } catch (e) {
-        logger.error(e)
-        res.status(500).end()
+            ).catch(logger.error)
+        } catch (e) {
+            logger.error(e)
+            res.status(500).end()
+        }
     }
-})
+)
 
 const cleanupImportSchema = z.object({
     id: z.string(),
 })
 
-router.delete('/clean/:id', validating(cleanupImportSchema, 'params'), logged, async (req, res) => {
-    const { user } = req as LoggedRequest
-    const { id } = req.params as TypedPayload<typeof cleanupImportSchema>
+importRouter.delete(
+    '/clean/:id',
+    validating(cleanupImportSchema, 'params'),
+    logged,
+    async (req, res) => {
+        const { user } = req as LoggedRequest
+        const { id } = req.params as TypedPayload<typeof cleanupImportSchema>
 
-    try {
-        const importState = await getImportState(id)
-        if (!importState) {
-            res.status(404).end()
-            return
+        try {
+            const importState = await getImportState(id)
+            if (!importState) {
+                res.status(404).end()
+                return
+            }
+            if (importState.user.toString() !== user._id.toString()) {
+                res.status(404).end()
+                return
+            }
+            await cleanupImport(importState._id.toString())
+            res.status(204).end()
+        } catch (e) {
+            logger.error(e)
+            res.status(500).end()
         }
-        if (importState.user.toString() !== user._id.toString()) {
-            res.status(404).end()
-            return
-        }
-        await cleanupImport(importState._id.toString())
-        res.status(204).end()
-    } catch (e) {
-        logger.error(e)
-        res.status(500).end()
     }
-})
+)
 
-router.get('/all', logged, async (req, res) => {
+importRouter.get('/all', logged, async (req, res) => {
     const { user } = req as LoggedRequest
 
     try {

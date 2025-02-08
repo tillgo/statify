@@ -8,9 +8,7 @@ export const Route = createFileRoute('/')({
 function RouteComponent() {
     const { data } = useUser()
 
-    console.log('data', data)
-
     return <div className={'p-4'}>
-        Hi {data.display_name}, danke fürs beta testen :D Ich meld mich wenn actually was zu sehen ist hier xD
+        Hi {data!.username}, danke fürs beta testen :D Ich meld mich wenn actually was zu sehen ist hier xD
     </div>
 }
