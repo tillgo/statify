@@ -3,7 +3,7 @@ import { Types } from 'mongoose'
 
 export type DarkModeType = 'system' | 'dark' | 'light'
 
-export interface User {
+export type User = {
     _id: ObjIdOrString
     username: string
     admin: boolean
@@ -21,13 +21,13 @@ export interface User {
     firstListenedAt?: Date
 }
 
-export interface SpotifyImage {
+export type SpotifyImage = {
     url: string
     height: number
     width: number
 }
 
-export interface Artist {
+export type Artist = {
     external_urls: any
     followers: any
     genres: string[]
@@ -41,7 +41,7 @@ export interface Artist {
 }
 export type SpotifyArtist = Artist
 
-export interface Album {
+export type Album = {
     album_type: string
     artists: string[]
     available_markets: string[]
@@ -64,7 +64,7 @@ export type SpotifyAlbum = Omit<Album, 'artists'> & {
     tracks: Track[]
 }
 
-export interface Track {
+export type Track = {
     album: string
     artists: string[]
     available_markets: string[]
@@ -87,12 +87,12 @@ export type SpotifyTrack = Omit<Track, 'artists' | 'album'> & {
     artists: Artist[]
     album: Album
 }
-export interface RecentlyPlayedTrack {
+export type RecentlyPlayedTrack = {
     played_at: string
     track: SpotifyTrack
 }
 
-export interface Infos {
+export type Infos = {
     owner: Types.ObjectId
     id: string
     albumId: string

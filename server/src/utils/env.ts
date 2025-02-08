@@ -13,6 +13,7 @@ const validators = {
     PORT: z.preprocess(toNumber, z.number().optional()),
     OFFLINE_DEV_ID: z.string().optional(),
     LOG_LEVEL: z.enum(['debug', 'info', 'warn', 'error']).optional(),
+    MAX_IMPORT_CACHE_SIZE: z.preprocess(toNumber, z.number().optional()),
 } as const
 
 const validatedEnv: Record<string, any> = {}

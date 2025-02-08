@@ -8,10 +8,12 @@ export const getUserFromField = async <F extends keyof User>(
     includeTokens: boolean,
     crash = true
 ) => {
-    const user = UserModel.findOne(
+    const user = await UserModel.findOne(
         { [field]: value },
         includeTokens ? '-tracks' : '-tracks -accessToken -refreshToken'
     )
+        .lean()
+        .exec()
 
     if (!user && crash) {
         throw new Error('User not found')
@@ -30,10 +32,13 @@ export const createUser = (username: string, spotifyId: string) =>
 
 export const storeInUser = <F extends keyof User>(field: F, value: User[F], infos: Partial<User>) =>
     UserModel.findOneAndUpdate({ [field]: value }, infos, { new: true })
+        .lean()
+        .exec()
 
-export const getUserCount = () => UserModel.countDocuments()
+export const getUserCount = () => UserModel.countDocuments().exec()
 
-export const getUser = (nb: number) => UserModel.find().sort({ _id: 'asc' }).skip(nb).limit(1)
+export const getUser = (nb: number) =>
+    UserModel.find().sort({ _id: 'asc' }).skip(nb).limit(1).lean().exec()
 
 export const addTrackIdsToUser = async (id: string, infos: Omit<Infos, 'owner'>[]) => {
     const realInfos = infos.map((info) => ({
@@ -72,4 +77,6 @@ export const getCloseTrackId = async (
         id: trackId,
         played_at: { $gt: startDate, $lt: endDate },
     })
+        .lean()
+        .exec()
 }

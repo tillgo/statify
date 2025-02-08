@@ -12,7 +12,7 @@ import {
 } from '../../shared/types'
 import { AlbumModel, ArtistModel, TrackModel } from '../../db/models'
 import { uniqBy } from 'lodash'
-import { addTrackIdsToUser, storeFirstListenedAtIfLess, storeInUser } from '../user'
+import { addTrackIdsToUser, storeFirstListenedAtIfLess, storeInUser } from '../userService'
 import { longWriteDbLock } from '../../utils/lock'
 
 const getIdsHandlingMax = async <T extends SpotifyTrack | SpotifyAlbum | SpotifyArtist>(

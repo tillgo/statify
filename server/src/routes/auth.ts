@@ -5,7 +5,7 @@ import { getEnv } from '../utils/env'
 import { Spotify } from '../utils/oauth/Provider'
 import { logged, validating, withHttpClient } from '../utils/middleware'
 import { SpotifyRequest, TypedPayload } from '../utils/types'
-import { createUser, getUserFromField, storeInUser } from '../services/user'
+import { createUser, getUserFromField, storeInUser } from '../services/userService'
 
 export const router = Router()
 

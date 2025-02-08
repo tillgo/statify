@@ -5,10 +5,12 @@ import mongoose from 'mongoose'
 import cookieParser from 'cookie-parser'
 import cors from 'cors'
 import path from 'path'
-import { router as authRouter } from './routes/auth'
 import { getEnv, parseEnv } from './utils/env'
 import { dbLoop } from './services/syncLoop/looper'
 import { logger } from './utils/logger'
+import { fixRunningImportsAtStart } from './services/import/importStateService'
+import { router as authRouter } from './routes/auth'
+import { router as importRouter } from './routes/import'
 
 // load env variables (prod: env vars, dev: .env file)
 if (process.env.NODE_ENV !== 'production') {
@@ -20,6 +22,7 @@ const app = express()
 mongoose.connect(getEnv('MONGO_URI')).then(() => {
     logger.info('[server]: Connected to MongoDB')
 
+    fixRunningImportsAtStart().catch(logger.error)
     dbLoop().catch(logger.error)
 })
 
@@ -28,9 +31,12 @@ app.use(express.static(path.join(__dirname, 'public')))
 
 app.use(express.json())
 app.use(cookieParser())
-app.use(cors({ origin: getEnv('NODE_ENV') !== 'production' ? '*' : undefined }))
+if (getEnv('NODE_ENV') !== 'production') {
+    app.use(cors({ origin: '*' }))
+}
 
 app.use('/api/auth', authRouter)
+app.use('/api/import', importRouter)
 
 // serve index.html for all other routes
 // @ts-ignore
