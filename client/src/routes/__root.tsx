@@ -6,6 +6,7 @@ import { AppSidebar } from '@/components/app-sidebar.tsx'
 import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar.tsx'
 import { Separator } from '@/components/ui/separator.tsx'
 import { Breadcrumbs } from '@/components/breadcrumbs.tsx'
+import { Toaster } from '@/components/ui/sonner.tsx'
 
 export const Route = createRootRoute({
     component: RootComponent,
@@ -46,6 +47,7 @@ function RootComponent() {
                     <Outlet />
                 </div>
             </SidebarInset>
+            <Toaster />
             <TanStackRouterDevtools position={'bottom-right'} />
         </SidebarProvider>
     )
