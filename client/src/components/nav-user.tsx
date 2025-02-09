@@ -18,6 +18,7 @@ import {
 import { useUser } from '@/lib/api/queries/useUser.ts'
 import { useSpotifyUser } from '@/lib/api/queries/useSpotifyUser.ts'
 import { User } from '@shared/types.ts'
+import { Link } from '@tanstack/react-router'
 
 export function NavUser() {
     const { isMobile } = useSidebar()
@@ -47,6 +48,7 @@ export function NavUser() {
                             <ChevronsUpDown className="ml-auto size-4" />
                         </SidebarMenuButton>
                     </DropdownMenuTrigger>
+
                     <DropdownMenuContent
                         className="w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-lg"
                         side={isMobile ? 'bottom' : 'right'}
@@ -64,9 +66,11 @@ export function NavUser() {
                         </DropdownMenuLabel>
                         <DropdownMenuSeparator />
                         <DropdownMenuGroup>
-                            <DropdownMenuItem className="cursor-pointer">
-                                <Settings />
-                                Settings
+                            <DropdownMenuItem className="cursor-pointer" asChild>
+                                <Link to={'/settings'}>
+                                    <Settings />
+                                    Settings
+                                </Link>
                             </DropdownMenuItem>
                         </DropdownMenuGroup>
                         <DropdownMenuSeparator />

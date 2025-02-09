@@ -5,6 +5,7 @@ import {
     SidebarMenu,
     SidebarMenuButton,
     SidebarMenuItem,
+    useSidebar,
 } from '@/components/ui/sidebar'
 import { AnyRouter, Link, RegisteredRouter, RouteIds, useMatch } from '@tanstack/react-router'
 
@@ -29,6 +30,7 @@ export function NavMain({ routes }: { routes: Record<string, NavItem[]> }) {
 
 const Item = ({ item }: { item: NavItem }) => {
     const match = useMatch({ from: item.url, shouldThrow: false })
+    const { state } = useSidebar()
 
     return (
         <SidebarMenuItem key={item.url}>
@@ -39,7 +41,7 @@ const Item = ({ item }: { item: NavItem }) => {
             >
                 <Link to={item.url}>
                     <item.icon />
-                    <span>{item.title}</span>
+                    {state === 'expanded' && <span>{item.title}</span>}
                 </Link>
             </SidebarMenuButton>
         </SidebarMenuItem>

@@ -13,6 +13,8 @@
 import { Route as rootRoute } from './routes/__root'
 import { Route as SettingsImport } from './routes/settings'
 import { Route as IndexImport } from './routes/index'
+import { Route as TopSongsImport } from './routes/top/songs'
+import { Route as TopArtistsImport } from './routes/top/artists'
 
 // Create/Update Routes
 
@@ -25,6 +27,18 @@ const SettingsRoute = SettingsImport.update({
 const IndexRoute = IndexImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const TopSongsRoute = TopSongsImport.update({
+  id: '/top/songs',
+  path: '/top/songs',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const TopArtistsRoute = TopArtistsImport.update({
+  id: '/top/artists',
+  path: '/top/artists',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -46,6 +60,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SettingsImport
       parentRoute: typeof rootRoute
     }
+    '/top/artists': {
+      id: '/top/artists'
+      path: '/top/artists'
+      fullPath: '/top/artists'
+      preLoaderRoute: typeof TopArtistsImport
+      parentRoute: typeof rootRoute
+    }
+    '/top/songs': {
+      id: '/top/songs'
+      path: '/top/songs'
+      fullPath: '/top/songs'
+      preLoaderRoute: typeof TopSongsImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
@@ -54,36 +82,46 @@ declare module '@tanstack/react-router' {
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/settings': typeof SettingsRoute
+  '/top/artists': typeof TopArtistsRoute
+  '/top/songs': typeof TopSongsRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/settings': typeof SettingsRoute
+  '/top/artists': typeof TopArtistsRoute
+  '/top/songs': typeof TopSongsRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
   '/settings': typeof SettingsRoute
+  '/top/artists': typeof TopArtistsRoute
+  '/top/songs': typeof TopSongsRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/settings'
+  fullPaths: '/' | '/settings' | '/top/artists' | '/top/songs'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/settings'
-  id: '__root__' | '/' | '/settings'
+  to: '/' | '/settings' | '/top/artists' | '/top/songs'
+  id: '__root__' | '/' | '/settings' | '/top/artists' | '/top/songs'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   SettingsRoute: typeof SettingsRoute
+  TopArtistsRoute: typeof TopArtistsRoute
+  TopSongsRoute: typeof TopSongsRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   SettingsRoute: SettingsRoute,
+  TopArtistsRoute: TopArtistsRoute,
+  TopSongsRoute: TopSongsRoute,
 }
 
 export const routeTree = rootRoute
@@ -97,7 +135,9 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
-        "/settings"
+        "/settings",
+        "/top/artists",
+        "/top/songs"
       ]
     },
     "/": {
@@ -105,6 +145,12 @@ export const routeTree = rootRoute
     },
     "/settings": {
       "filePath": "settings.tsx"
+    },
+    "/top/artists": {
+      "filePath": "top/artists.tsx"
+    },
+    "/top/songs": {
+      "filePath": "top/songs.tsx"
     }
   }
 }
