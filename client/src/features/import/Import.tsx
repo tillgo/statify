@@ -5,6 +5,7 @@ import { useImportUploadMutation } from '@/lib/api/queries/useImportUploadMutati
 import { useImportStateQuery } from '@/lib/api/queries/useImportStateQuery.ts'
 import { isEmpty } from 'lodash'
 import { ImportStateDisplay } from '@/features/import/ImportStateDisplay.tsx'
+import { LoaderCircle } from 'lucide-react'
 
 const validate = (file: File) => file.name.startsWith('Streaming_History_Audio')
 
@@ -29,6 +30,8 @@ export const Import = () => {
                     The import might take a while, you can always come back to check on it later.
                 </span>
             )}
+
+            {isPending && <LoaderCircle className="mx-auto animate-spin" />}
 
             {hasImports && <ImportStateDisplay />}
 
