@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 import { AxiosClient } from '@/lib/api/AxiosClient.ts'
 
-export const useSpotifyUser = () =>
+export const useSpotifyUserQuery = () =>
     useQuery({
         queryKey: ['spotifyMe'],
         queryFn: ({ signal }) =>

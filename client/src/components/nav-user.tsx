@@ -15,16 +15,16 @@ import {
     SidebarMenuItem,
     useSidebar,
 } from '@/components/ui/sidebar'
-import { useUser } from '@/lib/api/queries/useUser.ts'
-import { useSpotifyUser } from '@/lib/api/queries/useSpotifyUser.ts'
+import { useUserQuery } from '@/lib/api/queries/useUserQuery.ts'
+import { useSpotifyUserQuery } from '@/lib/api/queries/useSpotifyUserQuery.ts'
 import { User } from '@shared/types.ts'
 import { Link } from '@tanstack/react-router'
 
 export function NavUser() {
     const { isMobile } = useSidebar()
 
-    const { data: user } = useUser()
-    const { data: spotifyUser } = useSpotifyUser()
+    const { data: user } = useUserQuery()
+    const { data: spotifyUser } = useSpotifyUserQuery()
 
     const fallbackAvatar = user!.username
         .split(' ')

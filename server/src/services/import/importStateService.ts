@@ -1,5 +1,5 @@
 import { ImportStateModel } from '../../db/models'
-import { ImportState, ImportStateStatus } from './import.types'
+import { ImportState, ImportStateStatus } from '../../shared/types'
 
 export const createImportState = (userId: string, state: Omit<ImportState, '_id' | 'user'>) =>
     ImportStateModel.create({ user: userId, ...state })

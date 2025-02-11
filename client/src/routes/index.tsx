@@ -1,12 +1,12 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { useUser } from '@/lib/api/queries/useUser.ts'
+import { useUserQuery } from '@/lib/api/queries/useUserQuery.ts'
 
 export const Route = createFileRoute('/')({
     component: RouteComponent,
 })
 
 function RouteComponent() {
-    const { data } = useUser()
+    const { data } = useUserQuery()
 
     return (
         <div>

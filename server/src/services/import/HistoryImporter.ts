@@ -1,12 +1,11 @@
 import { readFile, unlink } from 'fs/promises'
 import { z } from 'zod'
 import { SpotifyAPI } from '../../utils/apis/spotifyApi'
-import { Infos, RecentlyPlayedTrack, User } from '../../shared/types'
+import { ImportState, Infos, RecentlyPlayedTrack, User } from '../../shared/types'
 import { minOfArray, retryPromise } from '../../utils/misc'
 import { getTracksAlbumsArtists, storeTrackAlbumArtist } from '../syncLoop/dbTools'
 import { addTrackIdsToUser, getCloseTrackId, storeFirstListenedAtIfLess } from '../userService'
 import { logger } from '../../utils/logger'
-import { ImportState } from './import.types'
 import { setImportStateCurrent } from './importStateService'
 import { getFromCacheString, setToCacheString } from './cache'
 

@@ -2,9 +2,9 @@ import { Types } from 'mongoose'
 import { logger } from '../../utils/logger'
 import { getUserFromField } from '../userService'
 import { HistoryImporter } from './HistoryImporter'
-import { ImportState } from './import.types'
 import { createImportState, getImportState, setImportStateStatus } from './importStateService'
 import { clearCache } from './cache'
+import { ImportState } from '../../shared/types'
 
 const userImporters: {
     [userId: string]: HistoryImporter

@@ -1,5 +1,6 @@
 import { Schema } from 'mongoose'
-import { ImportState } from '../../services/import/import.types'
+
+import { ImportState } from '../../shared/types'
 
 export const ImportStateSchema = new Schema<ImportState>({
     total: { type: Number, required: true },

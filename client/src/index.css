@@ -37,6 +37,9 @@
         --sidebar-accent-foreground: 240 5.9% 10%;
         --sidebar-border: 240 5.9% 90%;
         --sidebar-ring: 142.1 76.2% 36.3%;
+
+        --success: 142.4 71.8% 29.2%;
+        --success-foreground: 0 0% 98%;
     }
 
     .dark {

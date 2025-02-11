@@ -1,7 +1,7 @@
 import { Outlet, createRootRoute } from '@tanstack/react-router'
 import { TanStackRouterDevtools } from '@tanstack/router-devtools'
 import { Button } from '@/components/ui/button.tsx'
-import { useUser } from '@/lib/api/queries/useUser.ts'
+import { useUserQuery } from '@/lib/api/queries/useUserQuery.ts'
 import { AppSidebar } from '@/components/app-sidebar.tsx'
 import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar.tsx'
 import { Separator } from '@/components/ui/separator.tsx'
@@ -13,7 +13,7 @@ export const Route = createRootRoute({
 })
 
 function RootComponent() {
-    const { data, isLoading } = useUser()
+    const { data, isLoading } = useUserQuery()
 
     if (isLoading) return <div className={'p-4'}>Loading ...</div>
 

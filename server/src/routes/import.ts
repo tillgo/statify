@@ -132,12 +132,14 @@ importRouter.delete(
     }
 )
 
-importRouter.get('/all', logged, async (req, res) => {
+importRouter.get('/state', logged, async (req, res) => {
     const { user } = req as LoggedRequest
 
     try {
-        const state = await getUserImportState(user._id.toString())
-        res.status(200).send(state)
+        const states = await getUserImportState(user._id.toString())
+        const relevantStates = states.filter((state) => state.status !== 'failure-removed')
+
+        res.status(200).send(relevantStates)
     } catch (e) {
         logger.error(e)
         res.status(500).end()
