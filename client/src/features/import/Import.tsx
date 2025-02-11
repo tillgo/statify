@@ -24,6 +24,12 @@ export const Import = () => {
 
     return (
         <div className={'flex flex-col gap-4'}>
+            {isImporting && (
+                <span className="text-sm text-muted-foreground">
+                    The import might take a while, you can always come back to check on it later.
+                </span>
+            )}
+
             {hasImports && <ImportStateDisplay />}
 
             {!isEmpty(files) && !isImporting && (

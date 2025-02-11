@@ -6,6 +6,7 @@ import { logged, notAlreadyImporting, validating } from '../utils/middleware'
 import { logger } from '../utils/logger'
 import { canUserImport, cleanupImport, runImporter } from '../services/import/importService'
 import { getImportState, getUserImportState } from '../services/import/importStateService'
+import { orderBy } from 'lodash'
 
 export const importRouter = Router()
 
@@ -139,7 +140,7 @@ importRouter.get('/state', logged, async (req, res) => {
         const states = await getUserImportState(user._id.toString())
         const relevantStates = states.filter((state) => state.status !== 'failure-removed')
 
-        res.status(200).send(relevantStates)
+        res.status(200).send(orderBy(relevantStates, 'createdAt', 'desc'))
     } catch (e) {
         logger.error(e)
         res.status(500).end()
