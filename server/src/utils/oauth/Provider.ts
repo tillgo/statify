@@ -2,19 +2,7 @@ import Axios from 'axios'
 import { getCredentials } from './getCredentials'
 import { getRandomValues } from 'crypto'
 
-export class Provider {
-    static getRedirect = () => {}
-
-    static exchangeCode = (code: string, state: string) => {}
-
-    static refresh = (refreshToken: string) => {}
-
-    static getUniqueID = (accessToken: string) => {}
-
-    static getHttpClient = (accessToken: string) => {}
-}
-
-export class Spotify extends Provider {
+export class Spotify {
     static getRedirect = async () => {
         const credentials = getCredentials()
         const { scopes } = credentials.spotify
