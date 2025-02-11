@@ -6,4 +6,5 @@ export const useUserQuery = () =>
     useQuery<User | null>({
         queryKey: ['me'],
         queryFn: ({ signal }) => AxiosClient.get('/me', { signal }).then((res) => res.data),
+        retry: 0,
     })

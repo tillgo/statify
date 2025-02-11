@@ -7,6 +7,7 @@ import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/s
 import { Separator } from '@/components/ui/separator.tsx'
 import { Breadcrumbs } from '@/components/breadcrumbs.tsx'
 import { Toaster } from '@/components/ui/sonner.tsx'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card.tsx'
 
 export const Route = createRootRoute({
     component: RootComponent,
@@ -17,20 +18,7 @@ function RootComponent() {
 
     if (isLoading) return <div className={'p-4'}>Loading ...</div>
 
-    if (!data)
-        return (
-            <div className={'flex flex-col gap-3 p-4'}>
-                Bitte melde dich mit deinem Spotify account an.
-                <Button
-                    onClick={() => {
-                        window.location.href = `${import.meta.env.VITE_SERVER_API_URL}/auth/spotify`
-                    }}
-                    className={'w-20'}
-                >
-                    Login
-                </Button>
-            </div>
-        )
+    if (!data) return <LoginPage />
 
     return (
         <SidebarProvider>
@@ -50,5 +38,30 @@ function RootComponent() {
             <Toaster />
             <TanStackRouterDevtools position={'bottom-right'} />
         </SidebarProvider>
+    )
+}
+
+const LoginPage = () => {
+    return (
+        <div className="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
+            <Card>
+                <CardHeader>
+                    <CardTitle className="text-2xl">Login / Sign-up</CardTitle>
+                    <CardDescription>
+                        Connect your Spotify account, to start tracking your activity.
+                    </CardDescription>
+                </CardHeader>
+                <CardContent>
+                    <Button
+                        className="w-full"
+                        onClick={() => {
+                            window.location.href = `${import.meta.env.VITE_SERVER_API_URL}/auth/spotify`
+                        }}
+                    >
+                        Login with Spotify
+                    </Button>
+                </CardContent>
+            </Card>
+        </div>
     )
 }

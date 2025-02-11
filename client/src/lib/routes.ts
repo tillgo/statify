@@ -1,5 +1,5 @@
 import { type NavItem } from '@/components/nav-main.tsx'
-import { Home, Music2, Settings, User } from 'lucide-react'
+import { History, Home, Music2, Settings, User } from 'lucide-react'
 
 export const routes: Record<string, NavItem[]> = {
     General: [
@@ -7,6 +7,11 @@ export const routes: Record<string, NavItem[]> = {
             title: 'Home',
             url: '/',
             icon: Home,
+        },
+        {
+            title: 'My History',
+            url: '/my-history',
+            icon: History,
         },
     ],
     Tops: [

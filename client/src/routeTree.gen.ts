@@ -12,6 +12,7 @@
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as SettingsImport } from './routes/settings'
+import { Route as MyHistoryImport } from './routes/my-history'
 import { Route as IndexImport } from './routes/index'
 import { Route as TopSongsImport } from './routes/top/songs'
 import { Route as TopArtistsImport } from './routes/top/artists'
@@ -21,6 +22,12 @@ import { Route as TopArtistsImport } from './routes/top/artists'
 const SettingsRoute = SettingsImport.update({
   id: '/settings',
   path: '/settings',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const MyHistoryRoute = MyHistoryImport.update({
+  id: '/my-history',
+  path: '/my-history',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -53,6 +60,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
     }
+    '/my-history': {
+      id: '/my-history'
+      path: '/my-history'
+      fullPath: '/my-history'
+      preLoaderRoute: typeof MyHistoryImport
+      parentRoute: typeof rootRoute
+    }
     '/settings': {
       id: '/settings'
       path: '/settings'
@@ -81,6 +95,7 @@ declare module '@tanstack/react-router' {
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/my-history': typeof MyHistoryRoute
   '/settings': typeof SettingsRoute
   '/top/artists': typeof TopArtistsRoute
   '/top/songs': typeof TopSongsRoute
@@ -88,6 +103,7 @@ export interface FileRoutesByFullPath {
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/my-history': typeof MyHistoryRoute
   '/settings': typeof SettingsRoute
   '/top/artists': typeof TopArtistsRoute
   '/top/songs': typeof TopSongsRoute
@@ -96,6 +112,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
+  '/my-history': typeof MyHistoryRoute
   '/settings': typeof SettingsRoute
   '/top/artists': typeof TopArtistsRoute
   '/top/songs': typeof TopSongsRoute
@@ -103,15 +120,22 @@ export interface FileRoutesById {
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/settings' | '/top/artists' | '/top/songs'
+  fullPaths: '/' | '/my-history' | '/settings' | '/top/artists' | '/top/songs'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/settings' | '/top/artists' | '/top/songs'
-  id: '__root__' | '/' | '/settings' | '/top/artists' | '/top/songs'
+  to: '/' | '/my-history' | '/settings' | '/top/artists' | '/top/songs'
+  id:
+    | '__root__'
+    | '/'
+    | '/my-history'
+    | '/settings'
+    | '/top/artists'
+    | '/top/songs'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  MyHistoryRoute: typeof MyHistoryRoute
   SettingsRoute: typeof SettingsRoute
   TopArtistsRoute: typeof TopArtistsRoute
   TopSongsRoute: typeof TopSongsRoute
@@ -119,6 +143,7 @@ export interface RootRouteChildren {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  MyHistoryRoute: MyHistoryRoute,
   SettingsRoute: SettingsRoute,
   TopArtistsRoute: TopArtistsRoute,
   TopSongsRoute: TopSongsRoute,
@@ -135,6 +160,7 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
+        "/my-history",
         "/settings",
         "/top/artists",
         "/top/songs"
@@ -142,6 +168,9 @@ export const routeTree = rootRoute
     },
     "/": {
       "filePath": "index.tsx"
+    },
+    "/my-history": {
+      "filePath": "my-history.tsx"
     },
     "/settings": {
       "filePath": "settings.tsx"
