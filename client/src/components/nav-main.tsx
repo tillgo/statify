@@ -30,7 +30,7 @@ export function NavMain({ routes }: { routes: Record<string, NavItem[]> }) {
 
 const Item = ({ item }: { item: NavItem }) => {
     const match = useMatch({ from: item.url, shouldThrow: false })
-    const { state } = useSidebar()
+    const { state, setOpenMobile, isMobile } = useSidebar()
 
     return (
         <SidebarMenuItem key={item.url}>
@@ -38,6 +38,7 @@ const Item = ({ item }: { item: NavItem }) => {
                 tooltip={item.title}
                 asChild
                 className={match ? 'bg-sidebar-accent text-sidebar-accent-foreground' : ''}
+                onClick={() => isMobile && setOpenMobile(false)}
             >
                 <Link to={item.url}>
                     <item.icon />

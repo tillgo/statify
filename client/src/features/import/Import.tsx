@@ -41,7 +41,7 @@ export const Import = () => {
 
             {!isPending && !isImporting && (
                 <FileUploader
-                    className="h-40"
+                    className="md:h-40"
                     value={files}
                     onValueChange={setFiles}
                     accept={{ 'application/json': ['.json'] }}
