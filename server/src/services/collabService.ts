@@ -66,13 +66,13 @@ export const getCollaborativeBestSongs = (
         },
         {
             $addFields: {
-                average_percents: {
+                avg_ratio: {
                     $divide: [
                         { $sum: users.map((user) => `$percent_${user.toString()}`) },
                         users.length,
                     ],
                 },
-                minima: {
+                min_ratio: {
                     $min: users.map((user) => `$percent_${user.toString()}`),
                 },
             },
@@ -83,12 +83,7 @@ export const getCollaborativeBestSongs = (
                     $cond: {
                         if: { $eq: ['$minima', 0] },
                         then: 0,
-                        else: {
-                            $divide: [
-                                { $sum: ['$average_percents', { $multiply: ['$minima', 3] }] },
-                                2,
-                            ],
-                        },
+                        else: { $sum: ['$avg_ratio', { $multiply: ['$min_ratio', 3] }] },
                     },
                 },
             },
