@@ -1,4 +1,4 @@
-import { type NavItem } from '@/components/nav-main.tsx'
+import { type NavItem } from '@/components/sidebar/nav-main.tsx'
 import { History, Home, Music2, Settings, User } from 'lucide-react'
 
 export const routes: Record<string, NavItem[]> = {

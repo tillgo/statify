@@ -10,8 +10,9 @@ function RouteComponent() {
 
     return (
         <div>
-            Hi {data!.username}, danke fürs beta testen :D Ich meld mich wenn actually was zu sehen
-            ist hier xD
+            Hi {data!.username}, danke fürs beta testen ❤️ <br />
+            <br />
+            DASHBOARD - COMING SOON
         </div>
     )
 }

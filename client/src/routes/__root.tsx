@@ -1,10 +1,10 @@
 import { Outlet, createRootRoute } from '@tanstack/react-router'
 import { Button } from '@/components/ui/button.tsx'
 import { useUserQuery } from '@/lib/api/queries/useUserQuery.ts'
-import { AppSidebar } from '@/components/app-sidebar.tsx'
+import { AppSidebar } from '@/components/sidebar/app-sidebar.tsx'
 import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar.tsx'
 import { Separator } from '@/components/ui/separator.tsx'
-import { Breadcrumbs } from '@/components/breadcrumbs.tsx'
+import { Breadcrumbs } from '@/components/sidebar/breadcrumbs.tsx'
 import { Toaster } from '@/components/ui/sonner.tsx'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card.tsx'
 
@@ -25,7 +25,7 @@ function RootComponent() {
             <SidebarInset>
                 <header className="flex h-16 shrink-0 items-center transition-[width,height] ease-linear">
                     <div className="flex items-center gap-2 px-4">
-                        <SidebarTrigger className="-ml-1" />
+                        <SidebarTrigger className="-ml-2 h-8 w-8" />
                         <Separator orientation="vertical" className="mr-2 h-4" />
                         <Breadcrumbs />
                     </div>

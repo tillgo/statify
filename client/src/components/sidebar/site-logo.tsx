@@ -1,5 +1,5 @@
 import { AudioWaveform } from 'lucide-react'
-import { SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar'
+import { SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar.tsx'
 import { useNavigate } from '@tanstack/react-router'
 
 export function SiteLogo() {

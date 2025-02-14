@@ -2,11 +2,11 @@ import * as React from 'react'
 import { FileText, Upload, X } from 'lucide-react'
 import Dropzone, { type DropzoneProps, type FileRejection } from 'react-dropzone'
 import { toast } from 'sonner'
-import { cn, formatBytes } from '@/lib/utils'
-import { useControllableState } from '@/hooks/use-controllable-state.ts'
-import { Button } from '@/components/ui/button'
-import { Progress } from '@/components/ui/progress'
-import { ScrollArea } from '@/components/ui/scroll-area'
+import { cn, formatBytes } from '@/lib/utils.ts'
+import { useControllableState } from '@/lib/hooks/useControllableState.ts'
+import { Button } from '@/components/ui/button.tsx'
+import { Progress } from '@/components/ui/progress.tsx'
+import { ScrollArea } from '@/components/ui/scroll-area.tsx'
 
 interface FileUploaderProps extends React.HTMLAttributes<HTMLDivElement> {
     /**

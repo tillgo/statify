@@ -1,5 +1,5 @@
 import { ChevronsUpDown, LogOut, Settings } from 'lucide-react'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar.tsx'
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -8,23 +8,25 @@ import {
     DropdownMenuLabel,
     DropdownMenuSeparator,
     DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
+} from '@/components/ui/dropdown-menu.tsx'
 import {
     SidebarMenu,
     SidebarMenuButton,
     SidebarMenuItem,
     useSidebar,
-} from '@/components/ui/sidebar'
+} from '@/components/ui/sidebar.tsx'
 import { useUserQuery } from '@/lib/api/queries/useUserQuery.ts'
 import { useSpotifyUserQuery } from '@/lib/api/queries/useSpotifyUserQuery.ts'
 import { User } from '@shared/types.ts'
 import { Link } from '@tanstack/react-router'
+import { useLogoutMutation } from '@/lib/api/queries/useLogoutMutation.ts'
 
 export function NavUser() {
     const { isMobile } = useSidebar()
 
     const { data: user } = useUserQuery()
     const { data: spotifyUser } = useSpotifyUserQuery()
+    const { mutate: logout } = useLogoutMutation()
 
     const fallbackAvatar = user!.username
         .split(' ')
@@ -74,7 +76,7 @@ export function NavUser() {
                             </DropdownMenuItem>
                         </DropdownMenuGroup>
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem className="cursor-pointer">
+                        <DropdownMenuItem className="cursor-pointer" onClick={() => logout()}>
                             <LogOut />
                             Log out
                         </DropdownMenuItem>

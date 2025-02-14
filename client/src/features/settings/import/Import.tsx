@@ -1,10 +1,10 @@
 import { useState } from 'react'
-import { FileUploader } from '@/components/file-uploader.tsx'
+import { FileUploader } from '@/components/sidebar/file-uploader.tsx'
 import { Button } from '@/components/ui/button.tsx'
-import { useImportUploadMutation } from '@/lib/api/queries/useImportUploadMutation.ts'
-import { useImportStateQuery } from '@/lib/api/queries/useImportStateQuery.ts'
+import { useImportUploadMutation } from '@/features/settings/import/hooks/useImportUploadMutation.ts'
+import { useImportStateQuery } from '@/features/settings/import/hooks/useImportStateQuery.ts'
 import { isEmpty } from 'lodash'
-import { ImportStateDisplay } from '@/features/import/ImportStateDisplay.tsx'
+import { ImportStateDisplay } from '@/features/settings/import/components/ImportStateDisplay.tsx'
 import { LoaderCircle } from 'lucide-react'
 
 const validate = (file: File) => file.name.startsWith('Streaming_History_Audio')

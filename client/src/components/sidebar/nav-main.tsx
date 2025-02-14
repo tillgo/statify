@@ -6,7 +6,7 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
     useSidebar,
-} from '@/components/ui/sidebar'
+} from '@/components/ui/sidebar.tsx'
 import { AnyRouter, Link, RegisteredRouter, RouteIds, useMatch } from '@tanstack/react-router'
 
 export type NavItem<TRouter extends AnyRouter = RegisteredRouter> = {

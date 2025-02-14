@@ -1,10 +1,10 @@
-import { useImportStateQuery } from '@/lib/api/queries/useImportStateQuery.ts'
+import { useImportStateQuery } from '@/features/settings/import/hooks/useImportStateQuery.ts'
 import { ImportState } from '@shared/types.ts'
 import { Progress } from '@/components/ui/progress.tsx'
 import { format } from 'date-fns'
-import { ImportStatusTag } from '@/features/import/ImportStatusTag.tsx'
+import { ImportStatusTag } from '@/features/settings/import/components/ImportStatusTag.tsx'
 import { Button } from '@/components/ui/button.tsx'
-import { useCleanUpImportMutation } from '@/lib/api/queries/useCleanUpImportMutation.ts'
+import { useCleanUpImportMutation } from '@/features/settings/import/hooks/useCleanUpImportMutation.ts'
 
 export const ImportStateDisplay = () => {
     const { data: importStates } = useImportStateQuery()
