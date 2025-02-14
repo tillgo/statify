@@ -12,6 +12,7 @@ import { fixRunningImportsAtStart } from './services/import/importStateService'
 import { authRouter } from './routes/auth'
 import { importRouter } from './routes/import'
 import { indexRouter } from './routes'
+import { collabRouter } from './routes/collab'
 
 // load env variables (prod: env vars, dev: .env file)
 if (process.env.NODE_ENV !== 'production') {
@@ -46,6 +47,7 @@ app.use(cookieParser())
 app.use('/api', indexRouter)
 app.use('/api/auth', authRouter)
 app.use('/api/import', importRouter)
+app.use('/api/collab', collabRouter)
 
 // serve index.html for all other routes
 // @ts-ignore
