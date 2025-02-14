@@ -81,7 +81,7 @@ export const getCollaborativeBestSongs = (
             $addFields: {
                 combined_score: {
                     $cond: {
-                        if: { $eq: ['$minima', 0] },
+                        if: { $eq: ['$min_ratio', 0] },
                         then: 0,
                         else: { $sum: ['$avg_ratio', { $multiply: ['$min_ratio', 3] }] },
                     },
