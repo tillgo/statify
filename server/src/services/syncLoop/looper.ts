@@ -43,7 +43,7 @@ const loop = async (user: User) => {
         spotifyTracks
     )
 
-    const infos: Omit<Infos, 'owner'>[] = []
+    const infos: Omit<Infos, 'owner' | '_id'>[] = []
     for (let i = 0; i < items.length; i += 1) {
         const item = items[i]!
         const date = new Date(item.played_at)

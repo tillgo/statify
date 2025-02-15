@@ -40,7 +40,7 @@ export const getUserCount = () => UserModel.countDocuments().exec()
 export const getUser = (nb: number) =>
     UserModel.find().sort({ _id: 'asc' }).skip(nb).limit(1).lean().exec()
 
-export const addTrackIdsToUser = async (id: string, infos: Omit<Infos, 'owner'>[]) => {
+export const addTrackIdsToUser = async (id: string, infos: Omit<Infos, 'owner' | '_id'>[]) => {
     const realInfos = infos.map((info) => ({
         ...info,
         owner: new Types.ObjectId(id),

@@ -2,7 +2,7 @@ import { Router } from 'express'
 import { logged, validating } from '../utils/middleware'
 import { z } from 'zod'
 import { toDate } from '../utils/zod'
-import { Timesplit } from '../shared/util.types'
+import { Timesplit, timesplits } from '../shared/util.types'
 import { LoggedRequest, TypedPayload } from '../utils/types'
 import { getCollaborativeBestSongs } from '../services/collabService'
 import { logger } from '../utils/logger'
@@ -15,7 +15,7 @@ const intervalPerSchema = z.object({
         toDate,
         z.date().default(() => new Date())
     ),
-    timeSplit: z.nativeEnum(Timesplit).default(Timesplit.day),
+    timeSplit: z.enum(timesplits).default('day'),
 })
 
 const collaborativeSchema = intervalPerSchema.merge(

@@ -59,7 +59,7 @@ export class HistoryImporter {
             albums,
             artists,
         })
-        const finalInfos: Omit<Infos, 'owner'>[] = []
+        const finalInfos: Omit<Infos, 'owner' | '_id'>[] = []
         for (let i = 0; i < items.length; i += 1) {
             const item = items[i]!
             const date = new Date(item.played_at)

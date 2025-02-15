@@ -1,5 +1,5 @@
-import { ObjIdOrString } from '../utils/types'
 import { Types } from 'mongoose'
+import { ObjIdOrString } from './util.types'
 
 export type DarkModeType = 'system' | 'dark' | 'light'
 
@@ -28,6 +28,7 @@ export type SpotifyImage = {
 }
 
 export type Artist = {
+    _id: ObjIdOrString
     external_urls: any
     followers: any
     genres: string[]
@@ -42,6 +43,7 @@ export type Artist = {
 export type SpotifyArtist = Artist
 
 export type Album = {
+    _id: ObjIdOrString
     album_type: string
     artists: string[]
     available_markets: string[]
@@ -65,6 +67,7 @@ export type SpotifyAlbum = Omit<Album, 'artists'> & {
 }
 
 export type Track = {
+    _id: ObjIdOrString
     album: string
     artists: string[]
     available_markets: string[]
@@ -93,7 +96,8 @@ export type RecentlyPlayedTrack = {
 }
 
 export type Infos = {
-    owner: Types.ObjectId
+    _id: ObjIdOrString
+    owner: ObjIdOrString
     id: string
     albumId: string
     primaryArtistId: string
@@ -104,8 +108,8 @@ export type Infos = {
 
 export type ImportStateStatus = 'progress' | 'success' | 'failure' | 'failure-removed'
 export type ImportState = {
-    _id: Types.ObjectId
-    user: Types.ObjectId
+    _id: ObjIdOrString
+    user: ObjIdOrString
     current: number
     total: number
     status: ImportStateStatus

@@ -161,7 +161,7 @@ export async function storeIterationOfLoop(
     tracks: Track[],
     albums: Album[],
     artists: Artist[],
-    infos: Omit<Infos, 'owner'>[]
+    infos: Omit<Infos, 'owner' | '_id'>[]
 ) {
     await longWriteDbLock.lock()
 

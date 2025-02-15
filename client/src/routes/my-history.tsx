@@ -1,5 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { useCollabTopSongsQuery } from '@/lib/api/queries/useCollabTopSongsQuery.ts'
+import { useCollabTopSongsQuery } from '@/features/collab/hooks/useCollabTopSongsQuery.ts'
 
 export const Route = createFileRoute('/my-history')({
     component: RouteComponent,
