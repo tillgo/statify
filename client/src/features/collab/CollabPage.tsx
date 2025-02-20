@@ -5,12 +5,13 @@ import { useCollabTopSongsQuery } from '@/features/collab/hooks/useCollabTopSong
 import { IdealImage } from '@/components/ideal-image.tsx'
 import { Badge } from '@/components/ui/badge.tsx'
 import { useMyUserQuery } from '@/lib/api/queries/useMyUserQuery.ts'
+import { LoaderCircle } from 'lucide-react'
 
 export const CollabPage = () => {
     const [user, setUser] = useState<LightUser | undefined>()
 
     const { data: self } = useMyUserQuery()
-    const { data = [] } = useCollabTopSongsQuery({
+    const { data = [], isLoading } = useCollabTopSongsQuery({
         otherIds: user ? [user._id.toString()] : [],
         start: new Date(Date.now() - 1000 * 60 * 60 * 24 * 365),
     })
@@ -31,6 +32,8 @@ export const CollabPage = () => {
                     </span>
                 )}
             </div>
+
+            {isLoading && <LoaderCircle className="mx-auto animate-spin" />}
 
             <div className={'flex flex-col gap-2'}>
                 {user &&
