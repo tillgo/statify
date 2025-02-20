@@ -13,7 +13,7 @@ RUN npm install
 
 # Install dependencies for frontend
 WORKDIR /tmp/client
-RUN npm install
+RUN npm install --force
 
 # TODO: get real env from somewhere better
 RUN cp .env.example .env.production
