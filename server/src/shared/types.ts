@@ -1,4 +1,3 @@
-import { Types } from 'mongoose'
 import { ObjIdOrString } from './util.types'
 
 export type DarkModeType = 'system' | 'dark' | 'light'
