@@ -13,6 +13,7 @@
 import { Route as rootRoute } from './routes/__root'
 import { Route as SettingsImport } from './routes/settings'
 import { Route as MyHistoryImport } from './routes/my-history'
+import { Route as CollabImport } from './routes/collab'
 import { Route as IndexImport } from './routes/index'
 import { Route as TopSongsImport } from './routes/top/songs'
 import { Route as TopArtistsImport } from './routes/top/artists'
@@ -28,6 +29,12 @@ const SettingsRoute = SettingsImport.update({
 const MyHistoryRoute = MyHistoryImport.update({
   id: '/my-history',
   path: '/my-history',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const CollabRoute = CollabImport.update({
+  id: '/collab',
+  path: '/collab',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -58,6 +65,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/collab': {
+      id: '/collab'
+      path: '/collab'
+      fullPath: '/collab'
+      preLoaderRoute: typeof CollabImport
       parentRoute: typeof rootRoute
     }
     '/my-history': {
@@ -95,6 +109,7 @@ declare module '@tanstack/react-router' {
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/collab': typeof CollabRoute
   '/my-history': typeof MyHistoryRoute
   '/settings': typeof SettingsRoute
   '/top/artists': typeof TopArtistsRoute
@@ -103,6 +118,7 @@ export interface FileRoutesByFullPath {
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/collab': typeof CollabRoute
   '/my-history': typeof MyHistoryRoute
   '/settings': typeof SettingsRoute
   '/top/artists': typeof TopArtistsRoute
@@ -112,6 +128,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
+  '/collab': typeof CollabRoute
   '/my-history': typeof MyHistoryRoute
   '/settings': typeof SettingsRoute
   '/top/artists': typeof TopArtistsRoute
@@ -120,12 +137,25 @@ export interface FileRoutesById {
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/my-history' | '/settings' | '/top/artists' | '/top/songs'
+  fullPaths:
+    | '/'
+    | '/collab'
+    | '/my-history'
+    | '/settings'
+    | '/top/artists'
+    | '/top/songs'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/my-history' | '/settings' | '/top/artists' | '/top/songs'
+  to:
+    | '/'
+    | '/collab'
+    | '/my-history'
+    | '/settings'
+    | '/top/artists'
+    | '/top/songs'
   id:
     | '__root__'
     | '/'
+    | '/collab'
     | '/my-history'
     | '/settings'
     | '/top/artists'
@@ -135,6 +165,7 @@ export interface FileRouteTypes {
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  CollabRoute: typeof CollabRoute
   MyHistoryRoute: typeof MyHistoryRoute
   SettingsRoute: typeof SettingsRoute
   TopArtistsRoute: typeof TopArtistsRoute
@@ -143,6 +174,7 @@ export interface RootRouteChildren {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  CollabRoute: CollabRoute,
   MyHistoryRoute: MyHistoryRoute,
   SettingsRoute: SettingsRoute,
   TopArtistsRoute: TopArtistsRoute,
@@ -160,6 +192,7 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
+        "/collab",
         "/my-history",
         "/settings",
         "/top/artists",
@@ -168,6 +201,9 @@ export const routeTree = rootRoute
     },
     "/": {
       "filePath": "index.tsx"
+    },
+    "/collab": {
+      "filePath": "collab.tsx"
     },
     "/my-history": {
       "filePath": "my-history.tsx"

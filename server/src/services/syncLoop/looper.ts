@@ -2,7 +2,7 @@ import { MongoServerSelectionError } from 'mongodb'
 import { SpotifyAPI } from '../../utils/apis/spotifyApi'
 import { Infos, RecentlyPlayedTrack, User } from '../../shared/types'
 import { retryPromise, wait } from '../../utils/misc'
-import { getCloseTrackId, getUser, getUserCount } from '../userService'
+import { getCloseTrackId, getUserAtIndex, getUserCount } from '../userService'
 import { getTracksAlbumsArtists, storeIterationOfLoop } from './dbTools'
 import { logger } from '../../utils/logger'
 import { AxiosError } from 'axios'
@@ -78,7 +78,7 @@ export const dbLoop = async () => {
             logger.info(`[DbLoop] starting for ${nbUsers} users`)
 
             for (let i = 0; i < nbUsers; i += 1) {
-                const users = await getUser(i)
+                const users = await getUserAtIndex(i)
 
                 for (const us of users) {
                     await loop(us)

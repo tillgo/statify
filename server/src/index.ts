@@ -13,6 +13,7 @@ import { authRouter } from './routes/auth'
 import { importRouter } from './routes/import'
 import { indexRouter } from './routes'
 import { collabRouter } from './routes/collab'
+import { usersRouter } from './routes/users'
 
 // load env variables (prod: env vars, dev: .env file)
 if (process.env.NODE_ENV !== 'production') {
@@ -48,6 +49,7 @@ app.use('/api', indexRouter)
 app.use('/api/auth', authRouter)
 app.use('/api/import', importRouter)
 app.use('/api/collab', collabRouter)
+app.use('/api/users', usersRouter)
 
 // serve index.html for all other routes
 // @ts-ignore

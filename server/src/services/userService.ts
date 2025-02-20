@@ -37,8 +37,11 @@ export const storeInUser = <F extends keyof User>(field: F, value: User[F], info
 
 export const getUserCount = () => UserModel.countDocuments().exec()
 
-export const getUser = (nb: number) =>
+export const getUserAtIndex = (nb: number) =>
     UserModel.find().sort({ _id: 'asc' }).skip(nb).limit(1).lean().exec()
+
+export const getAllUsers = () =>
+    UserModel.find({}, '_id username').sort({ username: 1 }).lean().exec()
 
 export const addTrackIdsToUser = async (id: string, infos: Omit<Infos, 'owner' | '_id'>[]) => {
     const realInfos = infos.map((info) => ({

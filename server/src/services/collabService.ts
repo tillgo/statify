@@ -56,24 +56,42 @@ export const getCollaborativeBestSongs = (
                 ),
             },
         },
-        {
-            $addFields: Object.fromEntries(
-                users.map((user) => [
-                    `percent_${user.toString()}`,
-                    { $divide: [`$amount_${user.toString()}`, `$total_${user.toString()}`] },
-                ])
-            ),
-        },
+        // {
+        //     $addFields: Object.fromEntries(
+        //         users.map((user) => [
+        //             `percent_${user.toString()}`,
+        //             { $divide: [`$amount_${user.toString()}`, `$total_${user.toString()}`] },
+        //         ])
+        //     ),
+        // },
+        // {
+        //     $addFields: {
+        //         avg_ratio: {
+        //             $divide: [
+        //                 { $sum: users.map((user) => `$percent_${user.toString()}`) },
+        //                 users.length,
+        //             ],
+        //         },
+        //         min_ratio: {
+        //             $min: users.map((user) => `$percent_${user.toString()}`),
+        //         },
+        //     },
+        // },
+        // {
+        //     $addFields: {
+        //         combined_score: {
+        //             $cond: {
+        //                 if: { $eq: ['$min_ratio', 0] },
+        //                 then: { $divide: ['$avg_ratio', 100] },
+        //                 else: { $sum: ['$avg_ratio', { $multiply: ['$min_ratio', 3] }] },
+        //             },
+        //         },
+        //     },
+        // },
         {
             $addFields: {
-                avg_ratio: {
-                    $divide: [
-                        { $sum: users.map((user) => `$percent_${user.toString()}`) },
-                        users.length,
-                    ],
-                },
-                min_ratio: {
-                    $min: users.map((user) => `$percent_${user.toString()}`),
+                combined_amount: {
+                    $sum: users.map((user) => `$amount_${user._id.toString()}`),
                 },
             },
         },
@@ -81,9 +99,24 @@ export const getCollaborativeBestSongs = (
             $addFields: {
                 combined_score: {
                     $cond: {
-                        if: { $eq: ['$min_ratio', 0] },
-                        then: 0,
-                        else: { $sum: ['$avg_ratio', { $multiply: ['$min_ratio', 3] }] },
+                        if: {
+                            $or: users.map((user) => ({
+                                $eq: [`$amount_${user._id.toString()}`, 0],
+                            })),
+                        },
+                        then: {
+                            $divide: [
+                                {
+                                    $sum: users.map((user) => `$amount_${user._id.toString()}`),
+                                },
+                                10000,
+                            ],
+                        },
+                        else: {
+                            $sum: users.map((user) => ({
+                                $pow: [`$amount_${user._id.toString()}`, 1 / 4],
+                            })),
+                        },
                     },
                 },
             },

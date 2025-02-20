@@ -15,7 +15,7 @@ import {
     SidebarMenuItem,
     useSidebar,
 } from '@/components/ui/sidebar.tsx'
-import { useUserQuery } from '@/lib/api/queries/useUserQuery.ts'
+import { useMyUserQuery } from '@/lib/api/queries/useMyUserQuery.ts'
 import { useSpotifyUserQuery } from '@/lib/api/queries/useSpotifyUserQuery.ts'
 import { User } from '@shared/types.ts'
 import { Link } from '@tanstack/react-router'
@@ -24,7 +24,7 @@ import { useLogoutMutation } from '@/lib/api/queries/useLogoutMutation.ts'
 export function NavUser() {
     const { isMobile } = useSidebar()
 
-    const { data: user } = useUserQuery()
+    const { data: user } = useMyUserQuery()
     const { data: spotifyUser } = useSpotifyUserQuery()
     const { mutate: logout } = useLogoutMutation()
 
