@@ -2,7 +2,7 @@ import { Router } from 'express'
 import { logged, validating } from '../utils/middleware'
 import { z } from 'zod'
 import { toDate } from '../utils/zod'
-import { Timesplit, timesplits } from '../shared/util.types'
+import { timesplits } from '../shared/util.types'
 import { LoggedRequest, TypedPayload } from '../utils/types'
 import { getCollaborativeBestSongs } from '../services/collabService'
 import { logger } from '../utils/logger'
@@ -10,7 +10,10 @@ import { logger } from '../utils/logger'
 export const collabRouter = Router()
 
 const intervalPerSchema = z.object({
-    start: z.preprocess(toDate, z.date()),
+    start: z.preprocess(
+        toDate,
+        z.date().default(() => new Date(Date.now() - 1000 * 60 * 60 * 24 * 365 * 20))
+    ),
     end: z.preprocess(
         toDate,
         z.date().default(() => new Date())

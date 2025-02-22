@@ -6,36 +6,38 @@ import { IdealImage } from '@/components/ideal-image.tsx'
 import { Badge } from '@/components/ui/badge.tsx'
 import { useMyUserQuery } from '@/lib/api/queries/useMyUserQuery.ts'
 import { LoaderCircle } from 'lucide-react'
+import TimeframeSwitcher, { timeframes } from '@/components/timeframe-switcher.tsx'
 
 export const CollabPage = () => {
     const [user, setUser] = useState<LightUser | undefined>()
+    const [startDate, setStartDate] = useState<Date | null>(timeframes[1].start)
 
     const { data: self } = useMyUserQuery()
     const { data = [], isLoading } = useCollabTopSongsQuery({
         otherIds: user ? [user._id.toString()] : [],
-        start: new Date(Date.now() - 1000 * 60 * 60 * 24 * 365),
+        start: startDate,
     })
 
     return (
         <div className={'mx-auto flex w-full max-w-5xl flex-col gap-6'}>
-            <div className={'flex gap-2'}>
+            <div className={'flex justify-between gap-2'}>
                 <UserSelect value={user} onChange={setUser} excludeSelf={true} />
 
-                {user && (
+                <TimeframeSwitcher onChange={setStartDate} hide={!user} />
+            </div>
+
+            {isLoading && <LoaderCircle className="mx-auto animate-spin" />}
+
+            {!isLoading && user && (
+                <div className={'flex flex-col gap-2'}>
                     <span className={'ml-auto flex items-center gap-2'}>
                         <Badge variant={'default'} className={'ml-auto'}>
                             Your streams
                         </Badge>
                         <Badge variant={'outline'}>{`${user.username}s streams`}</Badge>
                     </span>
-                )}
-            </div>
 
-            {isLoading && <LoaderCircle className="mx-auto animate-spin" />}
-
-            <div className={'flex flex-col gap-2'}>
-                {user &&
-                    data.map((entry, index) => (
+                    {data.map((entry, index) => (
                         <div
                             key={entry._id}
                             className={
@@ -62,7 +64,8 @@ export const CollabPage = () => {
                             </Badge>
                         </div>
                     ))}
-            </div>
+                </div>
+            )}
         </div>
     )
 }

@@ -23,7 +23,7 @@ function RootComponent() {
         <SidebarProvider>
             <AppSidebar />
             <SidebarInset>
-                <header className="flex h-16 shrink-0 items-center transition-[width,height] ease-linear">
+                <header className="sticky top-0 z-50 mb-4 flex h-16 shrink-0 items-center border-b bg-background transition-[width,height] ease-linear">
                     <div className="flex items-center gap-2 px-4">
                         <SidebarTrigger className="-ml-2 h-8 w-8" />
                         <Separator orientation="vertical" className="mr-2 h-4" />

@@ -24,9 +24,9 @@ export function UserSelect({ value, onChange, excludeSelf }: Props) {
     const [open, setOpen] = useState(false)
 
     const { data: self } = useMyUserQuery()
-    const { data: users } = useUsersQuery()
+    const { data: users = [] } = useUsersQuery()
 
-    const filteredUsers = users?.filter((user) => !excludeSelf || user._id !== self?._id)
+    const filteredUsers = users.filter((user) => !excludeSelf || user._id !== self?._id)
 
     return (
         <Popover open={open} onOpenChange={setOpen}>
@@ -35,42 +35,39 @@ export function UserSelect({ value, onChange, excludeSelf }: Props) {
                     variant="outline"
                     role="combobox"
                     aria-expanded={open}
-                    className="w-[200px] justify-between"
+                    className="w-full max-w-xs justify-between"
                 >
                     {value ? value.username : 'Select friend...'}
                     <ChevronsUpDown className="opacity-50" />
                 </Button>
             </PopoverTrigger>
-            <PopoverContent className="w-[200px] p-0">
+            <PopoverContent className="w-full max-w-xs p-0">
                 <Command>
                     <CommandInput placeholder="Search users..." />
                     <CommandList>
                         <CommandEmpty>No users found.</CommandEmpty>
-                        <CommandGroup>
-                            {filteredUsers &&
-                                filteredUsers.map((user) => (
-                                    <CommandItem
-                                        key={user._id.toString()}
-                                        value={user._id.toString()}
-                                        onSelect={(currentValue) => {
-                                            const newUser = users?.find(
-                                                (user) => user._id === currentValue
-                                            )
-                                            onChange(newUser)
-                                            setOpen(false)
-                                        }}
-                                    >
-                                        {user.username}
-                                        <Check
-                                            className={cn(
-                                                'ml-auto',
-                                                user._id === value?._id
-                                                    ? 'opacity-100'
-                                                    : 'opacity-0'
-                                            )}
-                                        />
-                                    </CommandItem>
-                                ))}
+                        <CommandGroup value={value?._id.toString()}>
+                            {filteredUsers.map((user) => (
+                                <CommandItem
+                                    key={user._id.toString()}
+                                    value={user._id.toString()}
+                                    onSelect={(currentValue) => {
+                                        const newUser = users.find(
+                                            (user) => user._id === currentValue
+                                        )
+                                        onChange(newUser)
+                                        setOpen(false)
+                                    }}
+                                >
+                                    {user.username}
+                                    <Check
+                                        className={cn(
+                                            'ml-auto',
+                                            user._id === value?._id ? 'opacity-100' : 'opacity-0'
+                                        )}
+                                    />
+                                </CommandItem>
+                            ))}
                         </CommandGroup>
                     </CommandList>
                 </Command>
