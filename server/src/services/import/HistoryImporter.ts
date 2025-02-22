@@ -4,10 +4,11 @@ import { SpotifyAPI } from '../../utils/apis/spotifyApi'
 import { ImportState, Infos, RecentlyPlayedTrack, User } from '../../shared/types'
 import { minOfArray, retryPromise } from '../../utils/misc'
 import { getTracksAlbumsArtists, storeTrackAlbumArtist } from '../syncLoop/dbTools'
-import { addTrackIdsToUser, getCloseTrackId, storeFirstListenedAtIfLess } from '../userService'
+import { addTrackIdsToUser, storeFirstListenedAtIfLess } from '../userService'
 import { logger } from '../../utils/logger'
 import { setImportStateCurrent } from './importStateService'
 import { getFromCacheString, setToCacheString } from './cache'
+import { findDuplicateInfo } from '../infoService'
 
 const fullPrivacyFileSchema = z.array(
     z.object({
@@ -63,11 +64,16 @@ export class HistoryImporter {
         for (let i = 0; i < items.length; i += 1) {
             const item = items[i]!
             const date = new Date(item.played_at)
-            const duplicate = await getCloseTrackId(this.userId.toString(), item.track.id, date, 60)
+            const duplicate = await findDuplicateInfo(
+                this.userId.toString(),
+                item.track.id,
+                date,
+                60
+            )
             const currentImportDuplicate = finalInfos.find(
                 (e) => Math.abs(e.played_at.getTime() - date.getTime()) <= 60 * 1000
             )
-            if (duplicate.length > 0 || currentImportDuplicate) {
+            if (duplicate || currentImportDuplicate) {
                 logger.info(`${item.track.name} - ${item.track.artists[0]?.name} was duplicate`)
                 continue
             }

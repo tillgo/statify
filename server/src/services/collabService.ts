@@ -56,7 +56,7 @@ export const getCollaborativeBestSongs = (
                         },
                         else: {
                             $sum: users.map((user) => ({
-                                $pow: [`$amount_${user._id.toString()}`, 1 / 6],
+                                $pow: [`$amount_${user._id.toString()}`, 1 / 8],
                             })),
                         },
                     },

@@ -2,10 +2,11 @@ import { MongoServerSelectionError } from 'mongodb'
 import { SpotifyAPI } from '../../utils/apis/spotifyApi'
 import { Infos, RecentlyPlayedTrack, User } from '../../shared/types'
 import { retryPromise, wait } from '../../utils/misc'
-import { getCloseTrackId, getUserAtIndex, getUserCount } from '../userService'
+import { getUserAtIndex, getUserCount } from '../userService'
 import { getTracksAlbumsArtists, storeIterationOfLoop } from './dbTools'
 import { logger } from '../../utils/logger'
 import { AxiosError } from 'axios'
+import { findDuplicateInfo } from '../infoService'
 
 const RETRY = 3
 
@@ -47,8 +48,8 @@ const loop = async (user: User) => {
     for (let i = 0; i < items.length; i += 1) {
         const item = items[i]!
         const date = new Date(item.played_at)
-        const duplicate = await getCloseTrackId(user._id.toString(), item.track.id, date, 30)
-        if (duplicate.length === 0) {
+        const duplicate = await findDuplicateInfo(user._id.toString(), item.track.id, date, 30)
+        if (!duplicate) {
             const [primaryArtist] = item.track.artists
             if (!primaryArtist) {
                 continue

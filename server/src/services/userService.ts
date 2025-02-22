@@ -63,23 +63,3 @@ export const storeFirstListenedAtIfLess = async (userId: string, playedAt: Date)
         })
     }
 }
-
-export const getCloseTrackId = async (
-    userId: string,
-    trackId: string,
-    date: Date,
-    secondsPlusMinus: number
-) => {
-    const startDate = new Date(date.getTime())
-    const endDate = new Date(date.getTime())
-    startDate.setSeconds(startDate.getSeconds() - secondsPlusMinus)
-    endDate.setSeconds(endDate.getSeconds() + secondsPlusMinus)
-
-    return InfosModel.find({
-        owner: userId,
-        id: trackId,
-        played_at: { $gt: startDate, $lt: endDate },
-    })
-        .lean()
-        .exec()
-}
