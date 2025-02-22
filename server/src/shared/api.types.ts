@@ -11,10 +11,7 @@ export type CollabTopSong = {
     track: LightTrack
     album: LightAlbum
     artists: LightArtist[]
-    min_ratio: number
-    avg_ratio: number
-    combined_score: number
-} & Record<`amount_${string}`, number> &
-    Record<`total_${string}`, number>
+    score: number
+} & Record<`amount_${string}`, number>
 
 export type LightUser = Pick<User, '_id' | 'username'>

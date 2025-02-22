@@ -12,7 +12,7 @@ export const InfosSchema = new Schema<Infos>(
 
         durationMs: { type: Number },
 
-        played_at: { type: Date, index: true },
+        played_at: { type: Date },
     },
     { toJSON: { virtuals: true }, toObject: { virtuals: true } }
 )
@@ -38,4 +38,4 @@ InfosSchema.virtual('artist', {
     justOne: true,
 })
 
-InfosSchema.index({ id: 1, owner: 1, played_at: 1 }, { unique: false })
+InfosSchema.index({ owner: 1, played_at: 1, id: 1 }, { unique: false })

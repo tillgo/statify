@@ -16,8 +16,6 @@ export const CollabPage = () => {
         start: new Date(Date.now() - 1000 * 60 * 60 * 24 * 365),
     })
 
-    console.log(data)
-
     return (
         <div className={'mx-auto flex w-full max-w-5xl flex-col gap-6'}>
             <div className={'flex gap-2'}>
