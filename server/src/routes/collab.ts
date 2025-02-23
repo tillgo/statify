@@ -10,11 +10,11 @@ import { logger } from '../utils/logger'
 export const collabRouter = Router()
 
 const intervalPerSchema = z.object({
-    start: z.preprocess(
+    from: z.preprocess(
         toDate,
-        z.date().default(() => new Date(Date.now() - 1000 * 60 * 60 * 24 * 365 * 20))
+        z.date().default(() => new Date(0))
     ),
-    end: z.preprocess(
+    to: z.preprocess(
         toDate,
         z.date().default(() => new Date())
     ),
@@ -33,15 +33,15 @@ collabRouter.get(
     logged,
     async (req, res) => {
         const { user } = req as LoggedRequest
-        const { start, end, otherIds } = req.query as unknown as TypedPayload<
+        const { from, to, otherIds } = req.query as unknown as TypedPayload<
             typeof collaborativeSchema
         >
 
         try {
             const result = await getCollaborativeBestSongs(
                 [user._id.toString(), ...otherIds.filter((e) => e.length > 0)],
-                start,
-                end,
+                from,
+                to,
                 50
             )
             res.status(200).send(result)

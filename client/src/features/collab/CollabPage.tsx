@@ -2,20 +2,24 @@ import { UserSelect } from '@/components/user-select.tsx'
 import { useState } from 'react'
 import { LightUser } from '@shared/api.types.ts'
 import { useCollabTopSongsQuery } from '@/features/collab/hooks/useCollabTopSongsQuery.ts'
-import { IdealImage } from '@/components/ideal-image.tsx'
 import { Badge } from '@/components/ui/badge.tsx'
 import { useMyUserQuery } from '@/lib/api/queries/useMyUserQuery.ts'
 import { LoaderCircle } from 'lucide-react'
-import TimeframeSwitcher, { timeframes } from '@/components/timeframe-switcher.tsx'
+import TimeframeSwitch, { timeframes } from '@/components/timeframe-switch.tsx'
+import { SongItem } from '@/components/song-item.tsx'
+import { DateRange } from 'react-day-picker'
 
 export const CollabPage = () => {
     const [user, setUser] = useState<LightUser | undefined>()
-    const [startDate, setStartDate] = useState<Date | null>(timeframes[1].start)
+    const [dateRange, setDateRange] = useState<DateRange>({
+        from: timeframes[1].start,
+        to: undefined,
+    })
 
     const { data: self } = useMyUserQuery()
     const { data = [], isLoading } = useCollabTopSongsQuery({
         otherIds: user ? [user._id.toString()] : [],
-        start: startDate,
+        ...dateRange,
     })
 
     return (
@@ -23,7 +27,7 @@ export const CollabPage = () => {
             <div className={'flex justify-between gap-2'}>
                 <UserSelect value={user} onChange={setUser} excludeSelf={true} />
 
-                <TimeframeSwitcher onChange={setStartDate} hide={!user} />
+                <TimeframeSwitch onChange={setDateRange} hide={!user} />
             </div>
 
             {isLoading && <LoaderCircle className="mx-auto animate-spin" />}
@@ -38,31 +42,14 @@ export const CollabPage = () => {
                     </span>
 
                     {data.map((entry, index) => (
-                        <div
-                            key={entry._id}
-                            className={
-                                'flex items-center gap-2 rounded-lg p-2 hover:bg-accent md:gap-4'
-                            }
-                        >
-                            <span>{index + 1}</span>
-                            <IdealImage images={entry.album.images} size={48} />
-
-                            <div className={'flex flex-col'}>
-                                <span className={'overflow-auto text-sm md:text-base'}>
-                                    {entry.track.name}
-                                </span>
-                                <span className={'text-xs'}>
-                                    {entry.artists.map((artist) => artist.name).join(', ')}
-                                </span>
-                            </div>
-
+                        <SongItem key={entry._id} entry={entry} rank={index + 1}>
                             <Badge variant={'default'} className={'ml-auto'}>
                                 {entry[`amount_${self!._id.toString()}`]}x
                             </Badge>
                             <Badge variant={'outline'}>
                                 {entry[`amount_${user._id.toString()}`]}x
                             </Badge>
-                        </div>
+                        </SongItem>
                     ))}
                 </div>
             )}
