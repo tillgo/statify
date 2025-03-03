@@ -56,14 +56,14 @@ export const CollabPage = () => {
                         return config!.renderer(
                             entry,
                             index,
-                            <>
-                                <Badge variant={'default'} className={'ml-auto'}>
+                            <span className={'ml-auto flex gap-2'}>
+                                <Badge variant={'default'}>
                                     {entry[`amount_${self!._id.toString()}`]}x
                                 </Badge>
                                 <Badge variant={'outline'}>
                                     {entry[`amount_${user._id.toString()}`]}x
                                 </Badge>
-                            </>
+                            </span>
                         )
                     })}
                 </div>
