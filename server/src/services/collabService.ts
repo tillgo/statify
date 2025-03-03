@@ -1,76 +1,135 @@
-import mongoose from 'mongoose'
+import mongoose, { PipelineStage } from 'mongoose'
 import { InfosModel } from '../db/models'
 import {
     basicMatchUsers,
     lightAlbumLookupPipeline,
     lightArtistLookupPipeline,
+    lightArtistsLookupPipeline,
     lightTrackLookupPipeline,
 } from '../db/pipelineHelpers'
+import { CollabTopArtist, CollabTopGenre, CollabTopSong } from '../shared/api.types'
 
-export const getCollaborativeBestSongs = (
-    _users: string[],
+export const getCollabTopSongs = (
+    userIds: string[],
     start: Date,
     end: Date,
     limit: number
-) => {
-    const users = _users.map((u) => new mongoose.Types.ObjectId(u))
+): Promise<CollabTopSong[]> => {
     return InfosModel.aggregate([
-        {
-            $match: basicMatchUsers(_users, start, end),
-        },
-        {
-            $addFields: Object.fromEntries(
-                users.map((user) => [
-                    `amount_${user.toString()}`,
-                    { $cond: [{ $eq: ['$owner', user] }, 1, 0] },
-                ])
-            ),
-        },
+        ...matchAndAddCount(userIds, start, end),
         {
             $group: {
                 _id: '$id',
                 ...Object.fromEntries(
-                    users.map((user) => [
-                        `amount_${user.toString()}`,
-                        { $sum: `$amount_${user.toString()}` },
-                    ])
+                    userIds.map((userId) => [`amount_${userId}`, { $sum: `$amount_${userId}` }])
                 ),
             },
         },
+        ...sortAndLimitByScore(userIds, limit),
+        ...lightTrackLookupPipeline('_id'),
+        ...lightAlbumLookupPipeline('track.album'),
+        lightArtistsLookupPipeline('track.artists'),
+    ]).exec()
+}
+
+export const getCollabTopArtists = (
+    userIds: string[],
+    start: Date,
+    end: Date,
+    limit: number
+): Promise<CollabTopArtist[]> => {
+    return InfosModel.aggregate([
+        ...matchAndAddCount(userIds, start, end),
         {
-            $addFields: {
-                score: {
-                    $cond: {
-                        if: {
-                            $or: users.map((user) => ({
-                                $eq: [`$amount_${user._id.toString()}`, 0],
-                            })),
-                        },
-                        then: {
-                            $divide: [
-                                {
-                                    $sum: users.map((user) => `$amount_${user._id.toString()}`),
-                                },
-                                10000,
-                            ],
-                        },
-                        else: {
-                            $sum: users.map((user) => ({
-                                $pow: [`$amount_${user._id.toString()}`, 1 / 8],
-                            })),
-                        },
+            $group: {
+                _id: '$primaryArtistId',
+                ...Object.fromEntries(
+                    userIds.map((userId) => [`amount_${userId}`, { $sum: `$amount_${userId}` }])
+                ),
+            },
+        },
+        ...sortAndLimitByScore(userIds, limit),
+        ...lightArtistLookupPipeline('_id'),
+    ]).exec()
+}
+
+export const getCollabTopGenres = (
+    userIds: string[],
+    start: Date,
+    end: Date,
+    limit: number
+): Promise<CollabTopGenre[]> => {
+    return InfosModel.aggregate([
+        ...matchAndAddCount(userIds, start, end),
+        {
+            $group: {
+                _id: '$primaryArtistId',
+                ...Object.fromEntries(
+                    userIds.map((userId) => [`amount_${userId}`, { $sum: `$amount_${userId}` }])
+                ),
+            },
+        },
+        ...lightArtistLookupPipeline('_id'),
+        {
+            $unwind: '$artist.genres',
+        },
+        {
+            $group: {
+                _id: '$artist.genres',
+                ...Object.fromEntries(
+                    userIds.map((userId) => [`amount_${userId}`, { $sum: `$amount_${userId}` }])
+                ),
+            },
+        },
+        ...sortAndLimitByScore(userIds, limit),
+    ]).exec()
+}
+
+const matchAndAddCount = (userIds: string[], start: Date, end: Date): PipelineStage[] => [
+    {
+        $match: basicMatchUsers(userIds, start, end),
+    },
+    {
+        $addFields: Object.fromEntries(
+            userIds.map((userId) => [
+                `amount_${userId}`,
+                { $cond: [{ $eq: ['$owner', new mongoose.Types.ObjectId(userId)] }, 1, 0] },
+            ])
+        ),
+    },
+]
+
+const sortAndLimitByScore = (userIds: string[], limit: number): PipelineStage[] => [
+    {
+        $addFields: {
+            score: {
+                $cond: {
+                    if: {
+                        $or: userIds.map((userId) => ({
+                            $eq: [`$amount_${userId}`, 0],
+                        })),
+                    },
+                    then: {
+                        $divide: [
+                            {
+                                $sum: userIds.map((userId) => `$amount_${userId}`),
+                            },
+                            10000,
+                        ],
+                    },
+                    else: {
+                        $sum: userIds.map((userId) => ({
+                            $pow: [`$amount_${userId}`, 1 / 8],
+                        })),
                     },
                 },
             },
         },
-        {
-            $sort: {
-                score: -1,
-            },
+    },
+    {
+        $sort: {
+            score: -1,
         },
-        { $limit: limit },
-        ...lightTrackLookupPipeline('_id'),
-        ...lightAlbumLookupPipeline('track.album'),
-        lightArtistLookupPipeline('track.artists'),
-    ]).exec()
-}
+    },
+    { $limit: limit },
+]

@@ -16,14 +16,12 @@ function RootComponent() {
     const { data, isLoading } = useMyUserQuery()
 
     if (isLoading) return <div className={'p-4'}>Loading ...</div>
-
     if (!data) return <LoginPage />
-
     return (
         <SidebarProvider>
             <AppSidebar />
             <SidebarInset>
-                <header className="sticky top-0 z-50 mb-4 flex h-16 shrink-0 items-center border-b bg-background transition-[width,height] ease-linear">
+                <header className="sticky top-0 z-[100] mb-4 flex h-16 shrink-0 items-center border-b bg-background transition-[width,height] ease-linear">
                     <div className="flex items-center gap-2 px-4">
                         <SidebarTrigger className="-ml-2 h-8 w-8" />
                         <Separator orientation="vertical" className="mr-2 h-4" />

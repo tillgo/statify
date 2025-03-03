@@ -14,7 +14,7 @@ export const IdealImage = ({ images, size, className, ...other }: IdealImageProp
             src={getAtLeastImage(images, size)}
             height={size}
             width={size}
-            className={cn('object-cover', className)}
+            className={cn(`object-cover max-h-[${size}px] max-w-[${size}px]`, className)}
             {...other}
         />
     )

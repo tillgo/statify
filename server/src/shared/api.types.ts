@@ -14,4 +14,15 @@ export type CollabTopSong = {
     score: number
 } & Record<`amount_${string}`, number>
 
+export type CollabTopArtist = {
+    _id: string
+    artist: LightArtist
+    score: number
+} & Record<`amount_${string}`, number>
+
+export type CollabTopGenre = {
+    _id: string // genre name
+    score: number
+} & Record<`amount_${string}`, number>
+
 export type LightUser = Pick<User, '_id' | 'username'>

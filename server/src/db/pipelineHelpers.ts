@@ -48,7 +48,7 @@ export const lightAlbumLookupPipeline = (idField: string): PipelineStage[] => [
     { $unwind: '$album' },
 ]
 
-export const lightArtistLookupPipeline = (idField: string): PipelineStage.Lookup => ({
+export const lightArtistsLookupPipeline = (idField: string): PipelineStage.Lookup => ({
     $lookup: {
         from: 'artist',
         localField: idField,
@@ -57,3 +57,16 @@ export const lightArtistLookupPipeline = (idField: string): PipelineStage.Lookup
         pipeline: [{ $project: { _id: 1, id: 1, name: 1, images: 1, genres: 1 } }],
     },
 })
+
+export const lightArtistLookupPipeline = (idField: string): PipelineStage[] => [
+    {
+        $lookup: {
+            from: 'artist',
+            localField: idField,
+            foreignField: 'id',
+            as: 'artist',
+            pipeline: [{ $project: { _id: 1, id: 1, name: 1, images: 1, genres: 1 } }],
+        },
+    },
+    { $unwind: '$artist' },
+]
