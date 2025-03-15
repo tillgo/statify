@@ -3,11 +3,11 @@ import { Infos } from '../../shared/types'
 
 export const InfosSchema = new Schema<Infos>(
     {
-        owner: { type: Schema.Types.ObjectId, ref: 'User', index: true },
+        owner: { type: Schema.Types.ObjectId, ref: 'User' },
 
-        id: { type: String, index: true },
-        albumId: { type: String, index: true },
-        primaryArtistId: { type: String, index: true },
+        id: { type: String },
+        albumId: { type: String },
+        primaryArtistId: { type: String },
         artistIds: [{ type: String }],
 
         durationMs: { type: Number },
