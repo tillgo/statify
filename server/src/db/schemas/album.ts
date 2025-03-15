@@ -5,10 +5,10 @@ export const AlbumSchema = new Schema<Album>(
     {
         album_type: String,
         artists: { type: [String], index: true },
-        available_markets: [String],
+        //available_markets: [String],
         copyrights: [Object],
         external_ids: Object,
-        external_urls: Object,
+        //external_urls: Object,
         genres: [String],
         href: String,
         id: { type: String, unique: true },
@@ -19,7 +19,7 @@ export const AlbumSchema = new Schema<Album>(
         release_date_precision: String,
         //  "tracks": ,
         type: String,
-        uri: String,
+        //uri: String,
     },
     { toJSON: { virtuals: true }, toObject: { virtuals: true } }
 )
