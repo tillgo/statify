@@ -1,9 +1,10 @@
 import { createFileRoute } from '@tanstack/react-router'
+import { TopPage } from '@/features/top/TopPage.tsx'
 
 export const Route = createFileRoute('/top/songs')({
     component: RouteComponent,
 })
 
 function RouteComponent() {
-    return <div>YOUR TOP SONGS - COMING SOON</div>
+    return <TopPage type={'songs'} />
 }

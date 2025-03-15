@@ -4,7 +4,7 @@ import { startCase } from 'lodash'
 
 type Props = PropsWithChildren<{
     rank: number
-    entry: CollabTopGenre
+    entry: Pick<CollabTopGenre, '_id'>
 }>
 export const GenreItem = ({ rank, entry, children }: Props) => {
     return (

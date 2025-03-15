@@ -14,6 +14,7 @@ import { importRouter } from './routes/import'
 import { indexRouter } from './routes'
 import { collabRouter } from './routes/collab'
 import { usersRouter } from './routes/users'
+import { topRouter } from './routes/top'
 
 // load env variables (prod: env vars, dev: .env file)
 if (process.env.NODE_ENV !== 'production') {
@@ -50,6 +51,7 @@ app.use('/api/auth', authRouter)
 app.use('/api/import', importRouter)
 app.use('/api/collab', collabRouter)
 app.use('/api/users', usersRouter)
+app.use('/api/top', topRouter)
 
 // serve index.html for all other routes
 // @ts-ignore

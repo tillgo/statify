@@ -10,6 +10,11 @@ export const basicMatchUsers = (userIds: string[] | Types.ObjectId[], start: Dat
     played_at: { $gt: start, $lt: end },
 })
 
+export const basicMatchUser = (userId: string | Types.ObjectId, start: Date, end: Date) => ({
+    owner: userId instanceof Types.ObjectId ? userId : new Types.ObjectId(userId),
+    played_at: { $gt: start, $lt: end },
+})
+
 export const lightTrackLookupPipeline = (idField: string): PipelineStage[] => [
     {
         $lookup: {

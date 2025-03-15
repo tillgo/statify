@@ -13,7 +13,7 @@ import { logger } from '../utils/logger'
 
 export const collabRouter = Router()
 
-const intervalPerSchema = z.object({
+export const intervalSchema = z.object({
     from: z.preprocess(
         toDate,
         z.date().default(() => new Date(0))
@@ -22,10 +22,9 @@ const intervalPerSchema = z.object({
         toDate,
         z.date().default(() => new Date())
     ),
-    timeSplit: z.enum(timesplits).default('day'),
 })
 
-const collaborativeSchema = intervalPerSchema.merge(
+const collaborativeSchema = intervalSchema.merge(
     z.object({
         otherIds: z.array(z.string()).min(1),
     })

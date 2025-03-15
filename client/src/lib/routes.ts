@@ -1,5 +1,5 @@
 import { type NavItem } from '@/components/sidebar/nav-main.tsx'
-import { History, Home, Music2, Settings, User, HeartHandshake } from 'lucide-react'
+import { History, Home, Music2, Settings, User, HeartHandshake, Guitar } from 'lucide-react'
 
 export const routes: Record<string, NavItem[]> = {
     General: [
@@ -29,6 +29,11 @@ export const routes: Record<string, NavItem[]> = {
             title: 'Top artists',
             url: '/top/artists',
             icon: User,
+        },
+        {
+            title: 'Top genres',
+            url: '/top/genres',
+            icon: Guitar,
         },
     ],
     Settings: [
