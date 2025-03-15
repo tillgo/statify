@@ -1,9 +1,9 @@
 import { IdealImage } from '@/components/ideal-image.tsx'
 import { CollabTopSong } from '@shared/api.types.ts'
-import { PropsWithChildren } from 'react'
+import { PropsWithChildren, ReactNode } from 'react'
 
 type Props = PropsWithChildren<{
-    rank: number
+    rank: ReactNode
     entry: Pick<CollabTopSong, '_id' | 'track' | 'artists' | 'album'>
 }>
 export const SongItem = ({ rank, entry, children }: Props) => {

@@ -44,4 +44,17 @@ export type TopGenre = {
     amount: number
 }
 
+export type HistoryItem = {
+    _id: string
+    played_at: Date | string
+    track: LightTrack
+    album: LightAlbum
+    artists: LightArtist[]
+}
+
+export type HistoryResponse = {
+    items: HistoryItem[]
+    next: Date | string
+}
+
 export type LightUser = Pick<User, '_id' | 'username'>

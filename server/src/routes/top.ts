@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import { logged, validating } from '../utils/middleware'
+import { validating } from '../utils/middleware'
 import { LoggedRequest, TypedPayload } from '../utils/types'
 import { logger } from '../utils/logger'
 import { intervalSchema } from './collab'
@@ -7,7 +7,7 @@ import { getTopArtists, getTopGenres, getTopSongs } from '../services/topService
 
 export const topRouter = Router()
 
-topRouter.get('/songs', validating(intervalSchema, 'query'), logged, async (req, res) => {
+topRouter.get('/songs', validating(intervalSchema, 'query'), async (req, res) => {
     const { user } = req as LoggedRequest
     const { from, to } = req.query as unknown as TypedPayload<typeof intervalSchema>
 
@@ -20,7 +20,7 @@ topRouter.get('/songs', validating(intervalSchema, 'query'), logged, async (req,
     }
 })
 
-topRouter.get('/artists', validating(intervalSchema, 'query'), logged, async (req, res) => {
+topRouter.get('/artists', validating(intervalSchema, 'query'), async (req, res) => {
     const { user } = req as LoggedRequest
     const { from, to } = req.query as unknown as TypedPayload<typeof intervalSchema>
 
@@ -33,7 +33,7 @@ topRouter.get('/artists', validating(intervalSchema, 'query'), logged, async (re
     }
 })
 
-topRouter.get('/genres', validating(intervalSchema, 'query'), logged, async (req, res) => {
+topRouter.get('/genres', validating(intervalSchema, 'query'), async (req, res) => {
     const { user } = req as LoggedRequest
     const { from, to } = req.query as unknown as TypedPayload<typeof intervalSchema>
 

@@ -1,9 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
+import { HistoryPage } from '@/features/history/HistoryPage.tsx'
 
 export const Route = createFileRoute('/my-history')({
-    component: RouteComponent,
+    component: HistoryPage,
 })
-
-function RouteComponent() {
-    return <div>MY HISTORY - COMING SOON</div>
-}

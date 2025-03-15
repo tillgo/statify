@@ -16,196 +16,196 @@ import { Route as MyHistoryImport } from './routes/my-history'
 import { Route as CollabImport } from './routes/collab'
 import { Route as IndexImport } from './routes/index'
 import { Route as TopSongsImport } from './routes/top/songs'
-import { Route as TopGenresImport } from './routes/top/genres.tsx'
+import { Route as TopGenresImport } from './routes/top/genres'
 import { Route as TopArtistsImport } from './routes/top/artists'
 
 // Create/Update Routes
 
 const SettingsRoute = SettingsImport.update({
-    id: '/settings',
-    path: '/settings',
-    getParentRoute: () => rootRoute,
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => rootRoute,
 } as any)
 
 const MyHistoryRoute = MyHistoryImport.update({
-    id: '/my-history',
-    path: '/my-history',
-    getParentRoute: () => rootRoute,
+  id: '/my-history',
+  path: '/my-history',
+  getParentRoute: () => rootRoute,
 } as any)
 
 const CollabRoute = CollabImport.update({
-    id: '/collab',
-    path: '/collab',
-    getParentRoute: () => rootRoute,
+  id: '/collab',
+  path: '/collab',
+  getParentRoute: () => rootRoute,
 } as any)
 
 const IndexRoute = IndexImport.update({
-    id: '/',
-    path: '/',
-    getParentRoute: () => rootRoute,
+  id: '/',
+  path: '/',
+  getParentRoute: () => rootRoute,
 } as any)
 
 const TopSongsRoute = TopSongsImport.update({
-    id: '/top/songs',
-    path: '/top/songs',
-    getParentRoute: () => rootRoute,
+  id: '/top/songs',
+  path: '/top/songs',
+  getParentRoute: () => rootRoute,
 } as any)
 
 const TopGenresRoute = TopGenresImport.update({
-    id: '/top/genres',
-    path: '/top/genres',
-    getParentRoute: () => rootRoute,
+  id: '/top/genres',
+  path: '/top/genres',
+  getParentRoute: () => rootRoute,
 } as any)
 
 const TopArtistsRoute = TopArtistsImport.update({
-    id: '/top/artists',
-    path: '/top/artists',
-    getParentRoute: () => rootRoute,
+  id: '/top/artists',
+  path: '/top/artists',
+  getParentRoute: () => rootRoute,
 } as any)
 
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
-    interface FileRoutesByPath {
-        '/': {
-            id: '/'
-            path: '/'
-            fullPath: '/'
-            preLoaderRoute: typeof IndexImport
-            parentRoute: typeof rootRoute
-        }
-        '/collab': {
-            id: '/collab'
-            path: '/collab'
-            fullPath: '/collab'
-            preLoaderRoute: typeof CollabImport
-            parentRoute: typeof rootRoute
-        }
-        '/my-history': {
-            id: '/my-history'
-            path: '/my-history'
-            fullPath: '/my-history'
-            preLoaderRoute: typeof MyHistoryImport
-            parentRoute: typeof rootRoute
-        }
-        '/settings': {
-            id: '/settings'
-            path: '/settings'
-            fullPath: '/settings'
-            preLoaderRoute: typeof SettingsImport
-            parentRoute: typeof rootRoute
-        }
-        '/top/artists': {
-            id: '/top/artists'
-            path: '/top/artists'
-            fullPath: '/top/artists'
-            preLoaderRoute: typeof TopArtistsImport
-            parentRoute: typeof rootRoute
-        }
-        '/top/genres': {
-            id: '/top/genres'
-            path: '/top/genres'
-            fullPath: '/top/genres'
-            preLoaderRoute: typeof TopGenresImport
-            parentRoute: typeof rootRoute
-        }
-        '/top/songs': {
-            id: '/top/songs'
-            path: '/top/songs'
-            fullPath: '/top/songs'
-            preLoaderRoute: typeof TopSongsImport
-            parentRoute: typeof rootRoute
-        }
+  interface FileRoutesByPath {
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexImport
+      parentRoute: typeof rootRoute
     }
+    '/collab': {
+      id: '/collab'
+      path: '/collab'
+      fullPath: '/collab'
+      preLoaderRoute: typeof CollabImport
+      parentRoute: typeof rootRoute
+    }
+    '/my-history': {
+      id: '/my-history'
+      path: '/my-history'
+      fullPath: '/my-history'
+      preLoaderRoute: typeof MyHistoryImport
+      parentRoute: typeof rootRoute
+    }
+    '/settings': {
+      id: '/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof SettingsImport
+      parentRoute: typeof rootRoute
+    }
+    '/top/artists': {
+      id: '/top/artists'
+      path: '/top/artists'
+      fullPath: '/top/artists'
+      preLoaderRoute: typeof TopArtistsImport
+      parentRoute: typeof rootRoute
+    }
+    '/top/genres': {
+      id: '/top/genres'
+      path: '/top/genres'
+      fullPath: '/top/genres'
+      preLoaderRoute: typeof TopGenresImport
+      parentRoute: typeof rootRoute
+    }
+    '/top/songs': {
+      id: '/top/songs'
+      path: '/top/songs'
+      fullPath: '/top/songs'
+      preLoaderRoute: typeof TopSongsImport
+      parentRoute: typeof rootRoute
+    }
+  }
 }
 
 // Create and export the route tree
 
 export interface FileRoutesByFullPath {
-    '/': typeof IndexRoute
-    '/collab': typeof CollabRoute
-    '/my-history': typeof MyHistoryRoute
-    '/settings': typeof SettingsRoute
-    '/top/artists': typeof TopArtistsRoute
-    '/top/genres': typeof TopGenresRoute
-    '/top/songs': typeof TopSongsRoute
+  '/': typeof IndexRoute
+  '/collab': typeof CollabRoute
+  '/my-history': typeof MyHistoryRoute
+  '/settings': typeof SettingsRoute
+  '/top/artists': typeof TopArtistsRoute
+  '/top/genres': typeof TopGenresRoute
+  '/top/songs': typeof TopSongsRoute
 }
 
 export interface FileRoutesByTo {
-    '/': typeof IndexRoute
-    '/collab': typeof CollabRoute
-    '/my-history': typeof MyHistoryRoute
-    '/settings': typeof SettingsRoute
-    '/top/artists': typeof TopArtistsRoute
-    '/top/genres': typeof TopGenresRoute
-    '/top/songs': typeof TopSongsRoute
+  '/': typeof IndexRoute
+  '/collab': typeof CollabRoute
+  '/my-history': typeof MyHistoryRoute
+  '/settings': typeof SettingsRoute
+  '/top/artists': typeof TopArtistsRoute
+  '/top/genres': typeof TopGenresRoute
+  '/top/songs': typeof TopSongsRoute
 }
 
 export interface FileRoutesById {
-    __root__: typeof rootRoute
-    '/': typeof IndexRoute
-    '/collab': typeof CollabRoute
-    '/my-history': typeof MyHistoryRoute
-    '/settings': typeof SettingsRoute
-    '/top/artists': typeof TopArtistsRoute
-    '/top/genres': typeof TopGenresRoute
-    '/top/songs': typeof TopSongsRoute
+  __root__: typeof rootRoute
+  '/': typeof IndexRoute
+  '/collab': typeof CollabRoute
+  '/my-history': typeof MyHistoryRoute
+  '/settings': typeof SettingsRoute
+  '/top/artists': typeof TopArtistsRoute
+  '/top/genres': typeof TopGenresRoute
+  '/top/songs': typeof TopSongsRoute
 }
 
 export interface FileRouteTypes {
-    fileRoutesByFullPath: FileRoutesByFullPath
-    fullPaths:
-        | '/'
-        | '/collab'
-        | '/my-history'
-        | '/settings'
-        | '/top/artists'
-        | '/top/genres'
-        | '/top/songs'
-    fileRoutesByTo: FileRoutesByTo
-    to:
-        | '/'
-        | '/collab'
-        | '/my-history'
-        | '/settings'
-        | '/top/artists'
-        | '/top/genres'
-        | '/top/songs'
-    id:
-        | '__root__'
-        | '/'
-        | '/collab'
-        | '/my-history'
-        | '/settings'
-        | '/top/artists'
-        | '/top/genres'
-        | '/top/songs'
-    fileRoutesById: FileRoutesById
+  fileRoutesByFullPath: FileRoutesByFullPath
+  fullPaths:
+    | '/'
+    | '/collab'
+    | '/my-history'
+    | '/settings'
+    | '/top/artists'
+    | '/top/genres'
+    | '/top/songs'
+  fileRoutesByTo: FileRoutesByTo
+  to:
+    | '/'
+    | '/collab'
+    | '/my-history'
+    | '/settings'
+    | '/top/artists'
+    | '/top/genres'
+    | '/top/songs'
+  id:
+    | '__root__'
+    | '/'
+    | '/collab'
+    | '/my-history'
+    | '/settings'
+    | '/top/artists'
+    | '/top/genres'
+    | '/top/songs'
+  fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
-    IndexRoute: typeof IndexRoute
-    CollabRoute: typeof CollabRoute
-    MyHistoryRoute: typeof MyHistoryRoute
-    SettingsRoute: typeof SettingsRoute
-    TopArtistsRoute: typeof TopArtistsRoute
-    TopGenresRoute: typeof TopGenresRoute
-    TopSongsRoute: typeof TopSongsRoute
+  IndexRoute: typeof IndexRoute
+  CollabRoute: typeof CollabRoute
+  MyHistoryRoute: typeof MyHistoryRoute
+  SettingsRoute: typeof SettingsRoute
+  TopArtistsRoute: typeof TopArtistsRoute
+  TopGenresRoute: typeof TopGenresRoute
+  TopSongsRoute: typeof TopSongsRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
-    IndexRoute: IndexRoute,
-    CollabRoute: CollabRoute,
-    MyHistoryRoute: MyHistoryRoute,
-    SettingsRoute: SettingsRoute,
-    TopArtistsRoute: TopArtistsRoute,
-    TopGenresRoute: TopGenresRoute,
-    TopSongsRoute: TopSongsRoute,
+  IndexRoute: IndexRoute,
+  CollabRoute: CollabRoute,
+  MyHistoryRoute: MyHistoryRoute,
+  SettingsRoute: SettingsRoute,
+  TopArtistsRoute: TopArtistsRoute,
+  TopGenresRoute: TopGenresRoute,
+  TopSongsRoute: TopSongsRoute,
 }
 
 export const routeTree = rootRoute
-    ._addFileChildren(rootRouteChildren)
-    ._addFileTypes<FileRouteTypes>()
+  ._addFileChildren(rootRouteChildren)
+  ._addFileTypes<FileRouteTypes>()
 
 /* ROUTE_MANIFEST_START
 {

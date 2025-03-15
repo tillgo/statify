@@ -1,8 +1,7 @@
 import { Router } from 'express'
-import { logged, validating } from '../utils/middleware'
+import { validating } from '../utils/middleware'
 import { z } from 'zod'
 import { toDate } from '../utils/zod'
-import { timesplits } from '../shared/util.types'
 import { LoggedRequest, TypedPayload } from '../utils/types'
 import {
     getCollabTopArtists,
@@ -30,77 +29,56 @@ const collaborativeSchema = intervalSchema.merge(
     })
 )
 
-collabRouter.get(
-    '/top/songs',
-    validating(collaborativeSchema, 'query'),
-    logged,
-    async (req, res) => {
-        const { user } = req as LoggedRequest
-        const { from, to, otherIds } = req.query as unknown as TypedPayload<
-            typeof collaborativeSchema
-        >
+collabRouter.get('/top/songs', validating(collaborativeSchema, 'query'), async (req, res) => {
+    const { user } = req as LoggedRequest
+    const { from, to, otherIds } = req.query as unknown as TypedPayload<typeof collaborativeSchema>
 
-        try {
-            const result = await getCollabTopSongs(
-                [user._id.toString(), ...otherIds.filter((e) => e.length > 0)],
-                from,
-                to,
-                50
-            )
-            res.status(200).send(result)
-        } catch (e) {
-            logger.error(e)
-            res.status(500).end()
-        }
+    try {
+        const result = await getCollabTopSongs(
+            [user._id.toString(), ...otherIds.filter((e) => e.length > 0)],
+            from,
+            to,
+            50
+        )
+        res.status(200).send(result)
+    } catch (e) {
+        logger.error(e)
+        res.status(500).end()
     }
-)
+})
 
-collabRouter.get(
-    '/top/artists',
-    validating(collaborativeSchema, 'query'),
-    logged,
-    async (req, res) => {
-        const { user } = req as LoggedRequest
-        const { from, to, otherIds } = req.query as unknown as TypedPayload<
-            typeof collaborativeSchema
-        >
+collabRouter.get('/top/artists', validating(collaborativeSchema, 'query'), async (req, res) => {
+    const { user } = req as LoggedRequest
+    const { from, to, otherIds } = req.query as unknown as TypedPayload<typeof collaborativeSchema>
 
-        try {
-            const result = await getCollabTopArtists(
-                [user._id.toString(), ...otherIds.filter((e) => e.length > 0)],
-                from,
-                to,
-                50
-            )
-            res.status(200).send(result)
-        } catch (e) {
-            logger.error(e)
-            res.status(500).end()
-        }
+    try {
+        const result = await getCollabTopArtists(
+            [user._id.toString(), ...otherIds.filter((e) => e.length > 0)],
+            from,
+            to,
+            50
+        )
+        res.status(200).send(result)
+    } catch (e) {
+        logger.error(e)
+        res.status(500).end()
     }
-)
+})
 
-collabRouter.get(
-    '/top/genres',
-    validating(collaborativeSchema, 'query'),
-    logged,
-    async (req, res) => {
-        const { user } = req as LoggedRequest
-        const { from, to, otherIds } = req.query as unknown as TypedPayload<
-            typeof collaborativeSchema
-        >
+collabRouter.get('/top/genres', validating(collaborativeSchema, 'query'), async (req, res) => {
+    const { user } = req as LoggedRequest
+    const { from, to, otherIds } = req.query as unknown as TypedPayload<typeof collaborativeSchema>
 
-        try {
-            const result = await getCollabTopGenres(
-                [user._id.toString(), ...otherIds.filter((e) => e.length > 0)],
-                from,
-                to,
-                50
-            )
-            res.status(200).send(result)
-        } catch (e) {
-            logger.error(e)
-            res.status(500).end()
-        }
+    try {
+        const result = await getCollabTopGenres(
+            [user._id.toString(), ...otherIds.filter((e) => e.length > 0)],
+            from,
+            to,
+            50
+        )
+        res.status(200).send(result)
+    } catch (e) {
+        logger.error(e)
+        res.status(500).end()
     }
-)
+})
