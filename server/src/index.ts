@@ -47,7 +47,7 @@ app.use(express.static(path.join(__dirname, 'public')))
 app.use(express.json())
 app.use(cookieParser())
 
-app.use('/api', logged, indexRouter)
+app.use('/api', indexRouter)
 app.use('/api/auth', authRouter)
 app.use('/api/import', logged, importRouter)
 app.use('/api/collab', logged, collabRouter)
