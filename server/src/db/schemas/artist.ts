@@ -12,7 +12,7 @@ export const ArtistSchema = new Schema<Artist>(
         name: String,
         popularity: Number,
         type: String,
-        uri: String,
+        //uri: String,
     },
     { toJSON: { virtuals: true }, toObject: { virtuals: true } }
 )
