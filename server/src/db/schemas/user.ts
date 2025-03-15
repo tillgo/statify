@@ -10,12 +10,6 @@ export const UserSchema = new Schema<User>(
         accessToken: { type: String, default: null },
         refreshToken: { type: String, default: null },
         lastTimestamp: { type: Number, default: 0 },
-        tracks: {
-            type: [Schema.Types.ObjectId],
-            ref: 'Infos',
-            select: false,
-            default: [],
-        },
         settings: {
             darkMode: {
                 type: String,

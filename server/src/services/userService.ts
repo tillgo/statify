@@ -43,15 +43,12 @@ export const getUserAtIndex = (nb: number) =>
 export const getAllUsers = () =>
     UserModel.find({}, '_id username').sort({ username: 1 }).lean().exec()
 
-export const addTrackIdsToUser = async (id: string, infos: Omit<Infos, 'owner' | '_id'>[]) => {
+export const saveListeningInfos = async (id: string, infos: Omit<Infos, 'owner' | '_id'>[]) => {
     const realInfos = infos.map((info) => ({
         ...info,
         owner: new Types.ObjectId(id),
     }))
-    const infosSaved = await InfosModel.create(realInfos)
-    return UserModel.findByIdAndUpdate(id, {
-        $push: { tracks: { $each: infosSaved.map((e) => e._id) } },
-    })
+    return await InfosModel.create(realInfos)
 }
 
 export const storeFirstListenedAtIfLess = async (userId: string, playedAt: Date) => {

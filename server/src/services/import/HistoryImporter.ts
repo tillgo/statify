@@ -4,7 +4,7 @@ import { SpotifyAPI } from '../../utils/apis/spotifyApi'
 import { ImportState, Infos, RecentlyPlayedTrack, User } from '../../shared/types'
 import { minOfArray, retryPromise } from '../../utils/misc'
 import { getTracksAlbumsArtists, storeTrackAlbumArtist } from '../syncLoop/dbTools'
-import { addTrackIdsToUser, storeFirstListenedAtIfLess } from '../userService'
+import { saveListeningInfos, storeFirstListenedAtIfLess } from '../userService'
 import { logger } from '../../utils/logger'
 import { setImportStateCurrent } from './importStateService'
 import { getFromCacheString, setToCacheString } from './cache'
@@ -91,7 +91,7 @@ export class HistoryImporter {
             })
         }
         await setImportStateCurrent(this.id, this.currentItem + 1)
-        await addTrackIdsToUser(this.userId.toString(), finalInfos)
+        await saveListeningInfos(this.userId.toString(), finalInfos)
         const min = minOfArray(finalInfos, (info) => info.played_at.getTime())
         if (min) {
             const minInfo = finalInfos[min.minIndex]

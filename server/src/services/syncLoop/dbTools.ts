@@ -12,7 +12,7 @@ import {
 } from '../../shared/types'
 import { AlbumModel, ArtistModel, TrackModel } from '../../db/models'
 import { uniqBy } from 'lodash'
-import { addTrackIdsToUser, storeFirstListenedAtIfLess, storeInUser } from '../userService'
+import { saveListeningInfos, storeFirstListenedAtIfLess, storeInUser } from '../userService'
 import { longWriteDbLock } from '../../utils/lock'
 
 const getIdsHandlingMax = async <T extends SpotifyTrack | SpotifyAlbum | SpotifyArtist>(
@@ -171,7 +171,7 @@ export async function storeIterationOfLoop(
         artists,
     })
 
-    await addTrackIdsToUser(userId, infos)
+    await saveListeningInfos(userId, infos)
 
     await storeInUser('_id', new mongoose.Types.ObjectId(userId), {
         lastTimestamp: iterationTimestamp,
