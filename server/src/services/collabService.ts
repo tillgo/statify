@@ -119,7 +119,7 @@ const sortAndLimitByScore = (userIds: string[], limit: number): PipelineStage[] 
                     },
                     else: {
                         $sum: userIds.map((userId) => ({
-                            $pow: [`$amount_${userId}`, 1 / 8],
+                            $pow: [`$amount_${userId}`, 1 / 16],
                         })),
                     },
                 },

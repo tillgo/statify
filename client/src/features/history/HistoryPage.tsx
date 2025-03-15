@@ -36,7 +36,7 @@ export const HistoryPage = () => {
                         <div ref={isLastItem ? lastItemRef : undefined} key={item._id}>
                             <SongItem rank={pageIndex * 50 + index + 1} entry={item}>
                                 <span className={'ml-auto gap-2'}>
-                                    <Badge variant={'secondary'} className={'text-xs'}>
+                                    <Badge variant={'secondary'}>
                                         {format(new Date(item.played_at), 'dd.MM.yy HH:mm')}
                                     </Badge>
                                 </span>
